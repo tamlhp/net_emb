@@ -14,6 +14,7 @@ import numpy as np
 import networkx as nx
 import node2vec
 from gensim.models import Word2Vec
+import time
 
 def parse_args():
 	'''
@@ -101,4 +102,7 @@ def main(args):
 
 if __name__ == "__main__":
 	args = parse_args()
+	
+	start_time = time.time()
 	main(args)
+	print("--- %s seconds ---" % (time.time() - start_time))
