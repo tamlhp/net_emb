@@ -1,7 +1,7 @@
+from __future__ import print_function, division
 import numpy as np
 import networkx as nx
 import random
-from __future__ import print_function, division
 
 class Graph():
 	def __init__(self, nx_G, is_directed, p, q):
