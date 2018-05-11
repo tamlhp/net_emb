@@ -120,12 +120,12 @@ def parse_args():
 
 def test1():
     testargs = ["prog", 
-                "--wiki", "/Users/tnguyen/dataspace/graph/wikipedia/"
+                "--wiki", "/Users/tnguyen/dataspace/graph/wikipedia/",
                 ]
     with patch.object(sys, 'argv', testargs):
-        opt = setting()
+        args = parse_args()
     print(' '.join(testargs))
-    return opt
+    return args
 
 if __name__ == '__main__':
     if '--ntt' in sys.argv:
