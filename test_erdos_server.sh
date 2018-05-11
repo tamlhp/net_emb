@@ -1,5 +1,5 @@
-# DATASPACE=/mnt/storage01/duong/dataspace/graph
-DATASPACE=/Users/tnguyen/dataspace/graph
+DATASPACE=/mnt/storage01/duong/dataspace/graph
+# DATASPACE=/Users/tnguyen/dataspace/graph
 n=10000
 p=0.00015
 graph=erdos,n=${n},p=${p}
