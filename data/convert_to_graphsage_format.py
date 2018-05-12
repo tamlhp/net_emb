@@ -30,7 +30,7 @@ def load_cora(folder):
     val = rand_indices[1000:1500]
     train = list(rand_indices[1500:])
 
-    with open(folder + "cora.content") as fp:
+    with open(folder + "/cora.content") as fp:
         for i, line in enumerate(fp):
             info = line.strip().split()
             feat_data[i, :] = list(map(float, info[1:-1]))
@@ -53,18 +53,18 @@ def load_cora(folder):
             adj_lists[paper2].add(paper1)
             G.add_edge(paper1, paper2)
     data = json_graph.node_link_data(G)
-    with open(folder + 'graphsage/ncora-G.json', 'w') as outfile:
+    with open(folder + '/graphsage/ncora-G.json', 'w') as outfile:
         json.dump(data, outfile)
-    with open(folder + 'graphsage/ncora-feats.npy', 'wb') as outfile:
+    with open(folder + '/graphsage/ncora-feats.npy', 'wb') as outfile:
         np.save(outfile, feat_data)
-    with open(folder + 'graphsage/ncora-id_map.json', 'w') as outfile:
+    with open(folder + '/graphsage/ncora-id_map.json', 'w') as outfile:
         json.dump(id_map, outfile)
-    with open(folder + 'graphsage/ncora-reverse_map.json', 'w') as outfile:
+    with open(folder + '/graphsage/ncora-reverse_map.json', 'w') as outfile:
         json.dump(reverse_map, outfile)
-    with open(folder + 'graphsage/ncora-class_map.json', 'w') as outfile:
+    with open(folder + '/graphsage/ncora-class_map.json', 'w') as outfile:
         json.dump(class_map, outfile)
 
-    print(folder + "graphsage/")
+    print(folder + "/graphsage/")
     return
 
 def load_wiki(folder):
@@ -91,18 +91,18 @@ def load_wiki(folder):
     for i,j,v in zip(A.row, A.col, A.data):
         G.add_edge(int(i), int(j), weight=float(v))
 
-    with open(folder + 'graphsage/POS-G.json', 'w') as outfile:
+    with open(folder + '/graphsage/POS-G.json', 'w') as outfile:
         json.dump(json_graph.node_link_data(G), outfile)
     # with open(folder + 'graphsage/POS-feats.npy', 'wb') as outfile:
     #     np.save(outfile, feat_data)
-    with open(folder + 'graphsage/POS-id_map.json', 'w') as outfile:
+    with open(folder + '/graphsage/POS-id_map.json', 'w') as outfile:
         json.dump(id_map, outfile)
     # with open(folder + 'graphsage/POS-reverse_map.json', 'w') as outfile:
     #     json.dump(reverse_map, outfile)
-    with open(folder + 'graphsage/POS-class_map.json', 'w') as outfile:
+    with open(folder + '/graphsage/POS-class_map.json', 'w') as outfile:
         json.dump(class_map, outfile)
 
-    print(folder + "graphsage/")
+    print(folder + "/graphsage/")
     return
 
 def main(args):
