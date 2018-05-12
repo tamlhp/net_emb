@@ -63,7 +63,7 @@ def main(args):
     return
 
 def parse_args():
-    parser = argparse.ArgumentParser(description="Convert graph data to graphsage format.")
+    parser = argparse.ArgumentParser(description="Generate edge embeddings from node embeddings")
     parser.add_argument('--edgelist', default="/Users/tnguyen/dataspace/graph/wikipedia/edgelist/POS.edgelist", help='Edgelist file')
     parser.add_argument('--nodeemb', default="/Users/tnguyen/dataspace/graph/wikipedia/emb/POS.emb", help='Node embedding file')
     parser.add_argument('--output', default="/Users/tnguyen/dataspace/graph/wikipedia/emb/POS-edge.emb", help='Node embedding file')
