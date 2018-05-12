@@ -63,6 +63,7 @@ def get_roc_score(edges_pos, edges_neg, score_matrix, apply_sigmoid=False):
 def mask_test_edges(adj, args, test_frac=.1, val_frac=.05):
     # NOTE: Splits are randomized and results might slightly deviate from reported numbers in the paper.
 
+    start_time = time.time()
     if args.verbose == True:
         print('preprocessing...')
 
@@ -224,7 +225,7 @@ def mask_test_edges(adj, args, test_frac=.1, val_frac=.05):
 
     if args.verbose == True:
         print('Done with train-test split!')
-        print('')
+        print("--- %s seconds ---" % (time.time() - start_time))
 
     assert len(train_edges) > 0 and len(test_edges) > 0 and len(val_edges) > 0
 
