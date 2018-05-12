@@ -226,6 +226,8 @@ def mask_test_edges(adj, args, test_frac=.1, val_frac=.05):
         print('Done with train-test split!')
         print('')
 
+    assert len(train_edges) > 0 and len(test_edges) > 0 and len(val_edges) > 0
+
     # NOTE: these edge lists only contain single direction of edge!
     return adj_train, train_edges, train_edges_false, \
         val_edges, val_edges_false, test_edges, test_edges_false
@@ -267,7 +269,7 @@ def edge_classify(emb_list, train_test_split, args):
                 node2 = edge[1]
                 emb1 = emb_matrix[node1]
                 emb2 = emb_matrix[node2]
-                edge_emb = func(emb1, emb2)
+                edge_emb = args.func(emb1, emb2)
                 embs.append(edge_emb)
             embs = np.array(embs)
             return embs
