@@ -6,7 +6,7 @@ import pdb
 from networkx.readwrite import json_graph
 from argparse import ArgumentParser
 
-def run_regression(train_embeds, train_labels, test_embeds, test_labels):
+def run_regression(train_embeds, train_labels, test_embeds, test_labels, average='micro'):
     np.random.seed(1)
     from sklearn.linear_model import SGDClassifier
     from sklearn.dummy import DummyClassifier
@@ -16,11 +16,11 @@ def run_regression(train_embeds, train_labels, test_embeds, test_labels):
     log = SGDClassifier(loss="log", n_jobs=55)
     log.fit(train_embeds, train_labels)
     print("Test F1-score")
-    print(f1_score(test_labels, log.predict(test_embeds), average="micro"))
+    print(f1_score(test_labels, log.predict(test_embeds), average=average))
     print("Train F1-score")
-    print(f1_score(train_labels, log.predict(train_embeds), average="micro"))
+    print(f1_score(train_labels, log.predict(train_embeds), average=average))
     # print("Random baseline")
-    # print(f1_score(test_labels, dummy.predict(test_embeds), average="micro"))
+    # print(f1_score(test_labels, dummy.predict(test_embeds), average=average))
 
 def parse_args():
     parser = ArgumentParser("Run evaluation on a dataset.")
@@ -28,6 +28,7 @@ def parse_args():
     parser.add_argument("--embed_dir", default="/Users/tnguyen/dataspace/graph/wikipedia/unsup-graphsage/graphsage_mean_small_0.000010", help="Path to directory containing the learned node embeddings. Set to 'feat' for raw features.")
     parser.add_argument("--prefix", default="POS", help="Prefix to access the dataset")
     parser.add_argument("--setting", choices=['val', 'test'], default="test", help="Either val or test.")
+    parser.add_argument("--f1average", choices=['micro', 'macro', 'weighted', 'none'], default="micro", help="Average strategy for multi-class classification")
     return parser.parse_args()
 
 def main(args):
@@ -35,6 +36,7 @@ def main(args):
     data_dir = args.embed_dir
     setting = args.setting
     prefix = args.prefix
+    if args.average == 'none': args.average=None
 
     print("Loading data...")
     G = json_graph.node_link_graph(json.load(open("{0}/{1}-G.json".format(dataset_dir, prefix))))
@@ -66,7 +68,7 @@ def main(args):
         scaler.fit(train_feats)
         train_feats = scaler.transform(train_feats)
         test_feats = scaler.transform(test_feats)
-        run_regression(train_feats, train_labels, test_feats, test_labels)
+        run_regression(train_feats, train_labels, test_feats, test_labels, args.average)
     else:
         embeds = np.load(data_dir + "/val.npy")
         id_map = {}
@@ -77,7 +79,7 @@ def main(args):
         test_embeds = embeds[[id_map[id] for id in test_ids]] 
 
         print("Running regression..")
-        run_regression(train_embeds, train_labels, test_embeds, test_labels)
+        run_regression(train_embeds, train_labels, test_embeds, test_labels, args.average)
     return
 
 if __name__ == '__main__':
