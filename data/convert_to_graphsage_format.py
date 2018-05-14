@@ -10,7 +10,7 @@ from scipy.sparse import coo_matrix
 import argparse
 import math
 import sys
-# from mock import patch
+import pdb
 
 def load_cora(folder):
     G = nx.Graph()
@@ -86,7 +86,8 @@ def load_wiki(folder):
     classes = data['group'].todense()
     for i in range(num_nodes):
         id_map[i] = i
-        class_map[i] = classes[i].tolist()
+        class_map[i] = classes[i].tolist()[0]
+        class_map[i] = next(i for i,v in enumerate(class_map[i]) if v > 0) #wikipedia dataset has only 1 label
         G.add_node(i, id=i, test=i in test, val=i in val)
     
     A = coo_matrix(data['network'])
@@ -121,6 +122,7 @@ def parse_args():
     return parser.parse_args()
 
 def test1():
+    from mock import patch
     testargs = ["prog", 
                 "--wiki", "/Users/tnguyen/dataspace/graph/wikipedia/",
                 ]
