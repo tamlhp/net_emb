@@ -105,3 +105,4 @@ if __name__ == "__main__":
     print(len(pairs))
     with open(out_file, "w") as fp:
         fp.write("\n".join([str(p[0]) + "\t" + str(p[1]) for p in pairs]))
+        fp.close()

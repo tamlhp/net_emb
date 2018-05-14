@@ -10,7 +10,7 @@ from scipy.sparse import coo_matrix
 import argparse
 import math
 import sys
-from mock import patch
+# from mock import patch
 
 def load_cora(folder):
     G = nx.Graph()
@@ -72,12 +72,14 @@ def load_wiki(folder):
     data = sio.loadmat(mat_file)
     
     num_nodes = data['group'].shape[0]
+    print(num_nodes)
     np.random.seed(1)
     random.seed(1)
     rand_indices = np.random.permutation(num_nodes)
-    test = rand_indices[:int(num_nodes * 0.8)]
-    val = rand_indices[int(num_nodes * 0.8):num_nodes]
-
+    train = rand_indices[:int(num_nodes * 0.64)]
+    val = rand_indices[int(num_nodes * 0.64):int(num_nodes * 0.8)]
+    test = rand_indices[int(num_nodes * 0.8):]
+    
     G = nx.Graph()
     class_map = {}
     id_map = {}
