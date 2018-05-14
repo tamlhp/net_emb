@@ -1,0 +1,3 @@
+python -m graphsage.unsupervised_train --train_prefix ./example_data/ppi --model graphsage_mean --max_total_steps 1000 --validate_iter 10
+# python -m graphsage.utils karate/karate-G.json karate/karate-walks.txt
+# python -m graphsage.unsupervised_train --train_prefix karate/karate --model graphsage_mean --max_total_steps 100 --epochs 10 --validate_iter 1 --neg_sample_size 2 --batch_size 2 --gpu -1 --identity_dim 3 --dim_1 1 --dim_2 1
