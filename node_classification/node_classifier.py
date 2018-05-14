@@ -23,7 +23,7 @@ def run_regression(train_embeds, train_labels, test_embeds, test_labels, average
     # print(f1_score(test_labels, dummy.predict(test_embeds), average=average))
 
 def parse_args():
-    parser = ArgumentParser("Run evaluation on a dataset.")
+    parser = ArgumentParser("Node classification")
     parser.add_argument("--dataset_dir", default="/Users/tnguyen/dataspace/graph/wikipedia/graphsage", help="Path to directory containing the dataset.")
     parser.add_argument("--embed_dir", default="/Users/tnguyen/dataspace/graph/wikipedia/unsup-graphsage/graphsage_mean_small_0.000010", help="Path to directory containing the learned node embeddings. Set to 'feat' for raw features.")
     parser.add_argument("--prefix", default="POS", help="Prefix to access the dataset")

@@ -41,7 +41,7 @@ def avg(x,y):
     return (x+y) / 2
 
 def hadamard(x,y):
-    return x * y
+    return np.multiply(x,y)
 
 def l1(x,y, weight=1):
     return np.abs(x-y)

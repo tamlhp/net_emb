@@ -2,11 +2,13 @@ from __future__ import print_function, division
 import numpy as np
 import time
 import argparse
+import json
 import pdb
 import edge2vec
 
 import scipy.sparse as sp
 import networkx as nx
+from networkx.readwrite import json_graph
 
 from sklearn.metrics import roc_auc_score, average_precision_score, roc_curve
 from sklearn.linear_model import LogisticRegression
@@ -347,37 +349,24 @@ def edge_classify(emb_list, train_test_split, args):
 
     return n2v_scores
 
-def load_embedding(embedding_path):
-    count = 0
-    num_nodes = 0
-    dim_size = 0
-    node2vec = {}
-    with open(embedding_path) as f:
-        for line in f:
-            if count==0:
-                num_nodes, dim_size = [int(val) for val in line.split()]
-            else:
-                data = line.split()
-                node_id = int(data[0])
-                vector = [float(val) for val in data[1:]]
-                node2vec[node_id] = vector
-            count += 1
-    return node2vec
-
-def load_edgelist(edge_list_path, args=None):
-    if args is None or not args.weighted:
-        G = nx.read_edgelist(edge_list_path)
-    else:
-        G = nx.read_edgelist(edge_list_path, data=(('weight', float),))
-    return G
-
 def main(args):
-    node2vec = load_embedding(args.nodeemb)
-    G = load_edgelist(args.edgelist, args)
+    print("Loading data...")
+    G = json_graph.node_link_graph(json.load(open("{0}/{1}-G.json".format(args.dataset_dir, args.prefix))))
+    
+    node_ids = [n for n in G.nodes()]
+    
+    print("running", args.embed_dir)
+
+    embeds = np.load(args.embed_dir + "/val.npy")
+    id_map = {}
+    with open(args.embed_dir + "/val.txt") as fp:
+        for i, line in enumerate(fp):
+            id_map[int(line.strip())] = i
+    embeds = embeds[[id_map[id] for id in node_ids]] 
 
     emb_list = []
     for node_index in G.nodes:
-        node_emb = node2vec[int(node_index)]
+        node_emb = embeds[int(node_index)]
         emb_list.append(node_emb)
     
     adj_sparse = nx.to_scipy_sparse_matrix(G)
@@ -390,15 +379,16 @@ def main(args):
         "l2" : edge2vec.l2,
     }
 
-    args.func = funcs.get(args.func, hadamard)
+    args.func = funcs.get(args.func, edge2vec.hadamard)
     scores = edge_classify(emb_list,train_test_split, args)
     print(scores)
     return
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Link prediction")
-    parser.add_argument('--edgelist', default="/Users/tnguyen/dataspace/graph/wikipedia/edgelist/POS.edgelist", help='Edgelist file')
-    parser.add_argument('--nodeemb', default="/Users/tnguyen/dataspace/graph/wikipedia/emb/POS.emb", help='Node embedding file')
+    parser.add_argument("--dataset_dir", default="/Users/tnguyen/dataspace/graph/wikipedia/graphsage", help="Path to directory containing the dataset.")
+    parser.add_argument("--embed_dir", default="/Users/tnguyen/dataspace/graph/wikipedia/unsup-graphsage/graphsage_mean_small_0.000010", help="Path to directory containing the learned node embeddings. Set to 'feat' for raw features.")
+    parser.add_argument("--prefix", default="POS", help="Prefix to access the dataset")
     parser.add_argument('--weighted', action='store_true', default=False, help='Weighted or not')
     parser.add_argument('--prevent_disconnect', action='store_true', default=True, help='Edge discard strategy for link prediction')
     parser.add_argument('--verbose', action='store_true', default=False, help='Verbose or not')
