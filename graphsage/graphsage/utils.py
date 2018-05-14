@@ -100,5 +100,6 @@ if __name__ == "__main__":
     nodes = [n for n in G.nodes() if not G.node[n]["val"] and not G.node[n]["test"]]
     G = G.subgraph(nodes)
     pairs = run_random_walks(G, nodes)
+    print(len(pairs))
     with open(out_file, "w") as fp:
         fp.write("\n".join([str(p[0]) + "\t" + str(p[1]) for p in pairs]))
