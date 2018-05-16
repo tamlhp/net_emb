@@ -46,7 +46,7 @@ def load_wiki(folder):
     return
 
 def load_reddit(folder):
-    G = json_graph.node_link_graph(json.load(open("{0}/{1}-G.json".format(folder, "reddit"))))
+    G = json_graph.node_link_graph(json.load(open("{0}/graphsage/{1}-G.json".format(folder, "reddit"))))
     print(nx.info(G))
     nx.write_edgelist(G, path=folder + "/edgelist/reddit.edgelist", delimiter=" ", data=['weight'])
     print(folder + "/edgelist/")
