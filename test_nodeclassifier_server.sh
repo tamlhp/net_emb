@@ -1,5 +1,5 @@
-DATASPACE=/Users/tnguyen/dataspace/graph
-# DATASPACE=/mnt/storage01/duong/dataspace/graph
+# DATASPACE=/Users/tnguyen/dataspace/graph
+DATASPACE=/mnt/storage01/duong/dataspace/graph
 # source activate tensorflow
 # python node_classification/node_classifier.py --algorithm graphsage --dataset_dir ${DATASPACE}/wikipedia/graphsage/ \
 #     --embed_dir ${DATASPACE}/wikipedia/unsup-graphsage/graphsage_mean_small_0.000010 \
