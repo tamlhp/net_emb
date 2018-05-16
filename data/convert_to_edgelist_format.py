@@ -29,6 +29,7 @@ def load_cora(folder):
             paper2 = node_map[info[1]]
             G.add_edge(paper1, paper2)
 
+    print(nx.info(G))
     nx.write_edgelist(G, folder + '/edgelist/cora.edgelist')
     print(folder + "/edgelist/")
     return
@@ -38,8 +39,16 @@ def load_wiki(folder):
     data = sio.loadmat(mat_file)
     
     G = nx.Graph(data['network'])
+    print(nx.info(G))
     nx.write_edgelist(G, path=folder + "/edgelist/POS.edgelist", delimiter=" ", data=['weight'])
 
+    print(folder + "/edgelist/")
+    return
+
+def load_reddit(folder):
+    G = json_graph.node_link_graph(json.load(open("{0}/{1}-G.json".format(folder, "reddit"))))
+    print(nx.info(G))
+    nx.write_edgelist(G, path=folder + "/edgelist/reddit.edgelist", delimiter=" ", data=['weight'])
     print(folder + "/edgelist/")
     return
 
@@ -48,12 +57,15 @@ def main(args):
         load_wiki(args.wiki)
     if args.cora:
         load_cora(args.cora)
+    if args.reddit:
+        load_reddit(args.reddit)
     return
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Convert graph data to edgelist format.")
     parser.add_argument('--wiki', nargs='?', default='', help='Wikipedia data path')
     parser.add_argument('--cora', nargs='?', default='', help='Cora data path')
+    parser.add_argument('--reddit', nargs='?', default='', help='Reddit data path')
     return parser.parse_args()
 
 def test1():
