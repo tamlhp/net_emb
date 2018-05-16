@@ -44,7 +44,7 @@ def load_cora(folder):
             G.add_node(i, id=i, test=i in test, val=i in val, label=labels[i].tolist(), feature=feat_data[i].tolist())
 
     adj_lists = defaultdict(set)
-    with open(folder + "cora.cites") as fp:
+    with open(folder + "/cora.cites") as fp:
         for i, line in enumerate(fp):
             info = line.strip().split()
             paper1 = node_map[info[0]]
@@ -68,7 +68,7 @@ def load_cora(folder):
     return
 
 def load_wiki(folder):
-    mat_file = folder + "POS.mat"
+    mat_file = folder + "/POS.mat"
     data = sio.loadmat(mat_file)
     
     num_nodes = data['group'].shape[0]
