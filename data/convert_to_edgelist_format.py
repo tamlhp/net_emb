@@ -52,6 +52,13 @@ def load_reddit(folder):
     print(folder + "/edgelist/")
     return
 
+def load_ppi(folder):
+    G = json_graph.node_link_graph(json.load(open("{0}/graphsage/{1}-G.json".format(folder, "ppi"))))
+    print(nx.info(G))
+    nx.write_edgelist(G, path=folder + "/edgelist/ppi.edgelist", delimiter=" ", data=['weight'])
+    print(folder + "/edgelist/")
+    return
+
 def main(args):
     if args.wiki:
         load_wiki(args.wiki)
@@ -66,6 +73,7 @@ def parse_args():
     parser.add_argument('--wiki', nargs='?', default='', help='Wikipedia data path')
     parser.add_argument('--cora', nargs='?', default='', help='Cora data path')
     parser.add_argument('--reddit', nargs='?', default='', help='Reddit data path')
+    parser.add_argument('--ppi', nargs='?', default='', help='PPI data path')
     return parser.parse_args()
 
 def test1():

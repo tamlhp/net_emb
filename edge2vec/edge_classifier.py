@@ -347,33 +347,9 @@ def edge_classify(emb_list, train_test_split, args):
 
     return n2v_scores
 
-def load_embedding(embedding_path):
-    count = 0
-    num_nodes = 0
-    dim_size = 0
-    node2vec = {}
-    with open(embedding_path) as f:
-        for line in f:
-            if count==0:
-                num_nodes, dim_size = [int(val) for val in line.split()]
-            else:
-                data = line.split()
-                node_id = int(data[0])
-                vector = [float(val) for val in data[1:]]
-                node2vec[node_id] = vector
-            count += 1
-    return node2vec
-
-def load_edgelist(edge_list_path, args=None):
-    if args is None or not args.weighted:
-        G = nx.read_edgelist(edge_list_path)
-    else:
-        G = nx.read_edgelist(edge_list_path, data=(('weight', float),))
-    return G
-
 def main(args):
-    node2vec = load_embedding(args.nodeemb)
-    G = load_edgelist(args.edgelist, args)
+    node2vec = edge2vec.load_embedding(args.nodeemb)
+    G = edge2vec.load_edgelist(args.edgelist, args)
 
     emb_list = []
     for node_index in G.nodes:
@@ -390,7 +366,7 @@ def main(args):
         "l2" : edge2vec.l2,
     }
 
-    args.func = funcs.get(args.func, hadamard)
+    args.func = funcs.get(args.func, edge2vec.hadamard)
     scores = edge_classify(emb_list,train_test_split, args)
     print(scores)
     return

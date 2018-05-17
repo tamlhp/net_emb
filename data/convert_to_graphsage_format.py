@@ -85,14 +85,14 @@ def load_wiki(folder):
     id_map = {}
     classes = data['group'].todense()
     for i in range(num_nodes):
-        id_map[i] = i
-        class_map[i] = classes[i].tolist()[0]
-        class_map[i] = next(i for i,v in enumerate(class_map[i]) if v > 0) #wikipedia dataset has only 1 label
-        G.add_node(i, id=i, test=i in test, val=i in val)
+        id_map[str(i)] = i
+        class_map[str(i)] = classes[i].tolist()[0]
+        class_map[str(i)] = next(i for i,v in enumerate(class_map[str(i)]) if v > 0) #wikipedia dataset has only 1 label
+        G.add_node(str(i), id=str(i), test=i in test, val=i in val)
     
     A = coo_matrix(data['network'])
     for i,j,v in zip(A.row, A.col, A.data):
-        G.add_edge(int(i), int(j), weight=float(v))
+        G.add_edge(str(i), str(j), weight=float(v))
 
     with open(folder + '/graphsage/POS-G.json', 'w') as outfile:
         json.dump(json_graph.node_link_data(G), outfile)
