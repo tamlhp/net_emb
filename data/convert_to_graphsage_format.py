@@ -92,7 +92,7 @@ def load_wiki(folder):
     
     A = coo_matrix(data['network'])
     for i,j,v in zip(A.row, A.col, A.data):
-        G.add_edge(str(i), str(j), weight=float(v))
+        G.add_edge(int(i), int(j), weight=float(v))
 
     with open(folder + '/graphsage/POS-G.json', 'w') as outfile:
         json.dump(json_graph.node_link_data(G), outfile)

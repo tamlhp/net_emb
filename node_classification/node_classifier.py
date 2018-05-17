@@ -59,14 +59,16 @@ def main(args):
     print(nx.info(G))
 
     labels = json.load(open("{0}/{1}-class_map.json".format(dataset_dir, prefix)))
-    labels = {int(i):l for i, l in labels.iteritems()}
+    # labels = {int(i):l for i, l in labels.iteritems()}
     
     train_ids = [n for n in G.nodes() if not G.node[n]['val'] and not G.node[n]['test']]
     test_ids = [n for n in G.nodes() if G.node[n][setting]]
-    train_labels = np.array([labels[i] for i in train_ids])
+
+    pdb.set_trace()
+    train_labels = np.array([labels[str(i)] for i in train_ids])
     if train_labels.ndim == 1:
         train_labels = np.expand_dims(train_labels, 1)
-    test_labels = np.array([labels[i] for i in test_ids])
+    test_labels = np.array([labels[str(i)] for i in test_ids])
     print("running", emb_dir)
 
     if emb_dir == "feat":
@@ -93,7 +95,7 @@ def main(args):
             id_map = {}
             with open(emb_dir + "/val.txt") as fp:
                 for i, line in enumerate(fp):
-                    id_map[int(line.strip())] = i
+                    id_map[line.strip()] = i
         elif args.algorithm == 'node2vec':
             node2vec, num_nodes, dim_size = edge2vec.load_embedding("{0}/{1}.emb".format(emb_dir, prefix))
             embeds = np.zeros(shape=(num_nodes, dim_size))
@@ -104,8 +106,8 @@ def main(args):
         else:
             assert False
 
-        train_embeds = embeds[[id_map[id] for id in train_ids]] 
-        test_embeds = embeds[[id_map[id] for id in test_ids]] 
+        train_embeds = embeds[[id_map[str(id)] for id in train_ids]] 
+        test_embeds = embeds[[id_map[str(id)] for id in test_ids]] 
 
         print("Running regression..")
         run_regression(train_embeds, train_labels, test_embeds, test_labels, args.average)
