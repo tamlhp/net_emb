@@ -82,7 +82,6 @@ def main(args):
     train_ids = [n for n in G.nodes() if not G.node[n]['val'] and not G.node[n]['test']]
     test_ids = [n for n in G.nodes() if G.node[n][setting]]
 
-    pdb.set_trace()
     train_labels = np.array([labels[str(i)] for i in train_ids])
     if train_labels.ndim == 1:
         train_labels = np.expand_dims(train_labels, 1)
