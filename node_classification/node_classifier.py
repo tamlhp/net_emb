@@ -44,16 +44,16 @@ def run_regression(train_embeds, train_labels, test_embeds, test_labels, args):
         # print(f1_score(test_labels, dummy.predict(test_embeds), average=average))
     elif args.label == 'multi':
         print("Multi-label", test_labels.shape[1])
-        n2v_scores['test_f1'] = 0
+        n2v_scores['test_f1'] = []
         for i in range(test_labels.shape[1]):
-            n2v_scores['test_f1'] += f1_score(test_labels[:,i], log.predict(test_embeds)[:,i], average=args.average)
-            # print("F1 score", f1_score(test_labels[:,i], log.predict(test_embeds)[:,i], average=args.average))
-        n2v_scores['test_f1'] = n2v_scores['test_f1'] / test_labels.shape[1]
+            n2v_scores['test_f1'] += [f1_score(test_labels[:,i], log.predict(test_embeds)[:,i], average=args.average)]
+            print("F1 score", n2v_scores['test_f1'][i])
+        n2v_scores['test_f1'] = np.mean(n2v_scores['test_f1'])
 
-        n2v_scores['train_f1'] = 0
+        n2v_scores['train_f1'] = []
         for i in range(train_labels.shape[1]):
-            n2v_scores['train_f1'] += f1_score(train_labels[:,i], log.predict(train_embeds)[:,i], average=args.average)
-        n2v_scores['train_f1'] = n2v_scores['train_f1'] / train_labels.shape[1]
+            n2v_scores['train_f1'] += [f1_score(train_labels[:,i], log.predict(train_embeds)[:,i], average=args.average)]
+        n2v_scores['train_f1'] = np.mean(n2v_scores['train_f1'])
         
         # for i in range(test_labels.shape[1]):
             # print("Random baseline F1 score", f1_score(test_labels[:,i], dummy.predict(test_embeds)[:,i], average="micro")

@@ -97,14 +97,19 @@ def main(args):
 	print("Loading training data..")
 	nx_G = read_graph()
 	G = node2vec.Graph(nx_G, args.directed, args.p, args.q)
+
 	print("Preprocessing transition probs..")
 	G.preprocess_transition_probs()
+
 	print("Generate random walks..")
+	start_time = time.time()
 	walks = G.simulate_walks(args.num_walks, args.walk_length)
+	print("--- Random walks %s seconds ---" % (time.time() - start_time))
+
 	print("Training phase..")
 	start_time = time.time()
 	learn_embeddings(walks)
-	print("--- %s seconds ---" % (time.time() - start_time))
+	print("--- Training phase %s seconds ---" % (time.time() - start_time))
 
 if __name__ == "__main__":
 	args = parse_args()

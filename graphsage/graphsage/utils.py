@@ -5,6 +5,7 @@ import random
 import json
 import sys
 import os
+import time
 
 import networkx as nx
 from networkx.readwrite import json_graph
@@ -77,6 +78,7 @@ def load_data(prefix, normalize=True, load_walks=False):
 def run_random_walks(G, nodes, num_walks=N_WALKS):
     pairs = []
     print("Start random walks")
+    start_time = time.time()
     for count, node in enumerate(nodes):
         if G.degree(node) == 0:
             continue
@@ -91,6 +93,7 @@ def run_random_walks(G, nodes, num_walks=N_WALKS):
         if count % 1000 == 0:
             print("Done walks for", count, "nodes")
     print("End random walks")
+    print("--- %s seconds ---" % (time.time() - start_time))
     return pairs
 
 if __name__ == "__main__":
