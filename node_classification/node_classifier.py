@@ -11,29 +11,46 @@ import networkx as nx
 from networkx.readwrite import json_graph
 from argparse import ArgumentParser
 
-def run_regression(train_embeds, train_labels, test_embeds, test_labels, average='micro'):
+def run_regression(train_embeds, train_labels, test_embeds, test_labels, args):
     start_time = time.time()
 
     np.random.seed(1)
+
+
     from sklearn.linear_model import SGDClassifier
     from sklearn.dummy import DummyClassifier
     from sklearn.metrics import f1_score
+    from sklearn.multioutput import MultiOutputClassifier
+
     # dummy = DummyClassifier()
     # dummy.fit(train_embeds, train_labels)
-    log = SGDClassifier(loss="log", n_jobs=55)
+    if args.label == 'single':
+        log = SGDClassifier(loss="log", n_jobs=55)
+    elif args.label == 'multi':
+        log = MultiOutputClassifier(SGDClassifier(loss="log"), n_jobs=10)
+    else:
+        assert False
     log.fit(train_embeds, train_labels)
 
     n2v_scores = {}
 
-    n2v_scores['test_f1'] = f1_score(test_labels, log.predict(test_embeds), average=average)
-    n2v_scores['train_f1'] = f1_score(train_labels, log.predict(train_embeds), average=average)
-    n2v_scores['runtime'] = time.time() - start_time
+    if args.label == 'single':
+        n2v_scores['test_f1'] = f1_score(test_labels, log.predict(test_embeds), average=args.average)
+        n2v_scores['train_f1'] = f1_score(train_labels, log.predict(train_embeds), average=args.average)
+        n2v_scores['runtime'] = time.time() - start_time
 
-    print("Test F1-score", n2v_scores['test_f1'])
-    print("Train F1-score", n2v_scores['train_f1'])
-    print("Runtime (s)", n2v_scores['runtime'])
-    # print("Random baseline")
-    # print(f1_score(test_labels, dummy.predict(test_embeds), average=average))
+        print("Test F1-score", n2v_scores['test_f1'])
+        print("Train F1-score", n2v_scores['train_f1'])
+        print("Runtime (s)", n2v_scores['runtime'])
+        # print("Random baseline")
+        # print(f1_score(test_labels, dummy.predict(test_embeds), average=average))
+    elif args.label == 'multi':
+        for i in range(test_labels.shape[1]):
+            print("F1 score", f1_score(test_labels[:,i], log.predict(test_embeds)[:,i], average="micro"))
+        # for i in range(test_labels.shape[1]):
+            # print("Random baseline F1 score", f1_score(test_labels[:,i], dummy.predict(test_embeds)[:,i], average="micro")
+    else:
+        assert False
 
     return n2v_scores
 
@@ -44,6 +61,7 @@ def parse_args():
     parser.add_argument("--embed_dir", default="/Users/tnguyen/dataspace/graph/wikipedia/unsup-graphsage/graphsage_mean_small_0.000010", help="Path to directory containing the learned node embeddings. Set to 'feat' for raw features.")
     parser.add_argument("--prefix", default="POS", help="Prefix to access the dataset")
     parser.add_argument("--setting", choices=['val', 'test'], default="test", help="Either val or test.")
+    parser.add_argument("--label", choices=['multi', 'single'], default="single", help="Either multi or single lalbel classification.")
     parser.add_argument("--average", choices=['micro', 'macro', 'weighted', 'none'], default="micro", help="Average strategy for multi-class classification")
     return parser.parse_args()
 
@@ -88,7 +106,7 @@ def main(args):
         scaler.fit(train_feats)
         train_feats = scaler.transform(train_feats)
         test_feats = scaler.transform(test_feats)
-        run_regression(train_feats, train_labels, test_feats, test_labels, args.average)
+        run_regression(train_feats, train_labels, test_feats, test_labels, args)
     else:
         if args.algorithm == 'graphsage':
             embeds = np.load(emb_dir + "/val.npy")
@@ -109,7 +127,7 @@ def main(args):
         test_embeds = embeds[[id_map[str(id)] for id in test_ids]] 
 
         print("Running regression..")
-        run_regression(train_embeds, train_labels, test_embeds, test_labels, args.average)
+        run_regression(train_embeds, train_labels, test_embeds, test_labels, args)
     return
 
 if __name__ == '__main__':

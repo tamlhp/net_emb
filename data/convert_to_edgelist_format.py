@@ -66,6 +66,8 @@ def main(args):
         load_cora(args.cora)
     if args.reddit:
         load_reddit(args.reddit)
+    if args.ppi:
+        load_ppi(args.ppi)
     return
 
 def parse_args():
