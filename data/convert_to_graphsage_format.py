@@ -88,7 +88,7 @@ def load_wiki(folder):
         id_map[str(i)] = i
         class_map[str(i)] = classes[i].tolist()[0]
         class_map[str(i)] = next(i for i,v in enumerate(class_map[str(i)]) if v > 0) #wikipedia dataset has only 1 label
-        G.add_node(i, id="ntt" + str(i), test=i in test, val=i in val)
+        G.add_node(i, id=str(i), test=i in test, val=i in val)
     
     A = coo_matrix(data['network'])
     for i,j,v in zip(A.row, A.col, A.data):
