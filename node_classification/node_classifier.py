@@ -1,4 +1,4 @@
-from __future__ import print_function
+from __future__ import print_function, division
 import json
 import time
 import numpy as np
@@ -19,7 +19,7 @@ def run_regression(train_embeds, train_labels, test_embeds, test_labels, args):
 
     from sklearn.linear_model import SGDClassifier
     from sklearn.dummy import DummyClassifier
-    from sklearn.metrics import f1_score
+    from sklearn.metrics import f1_score, average_precision_score
     from sklearn.multioutput import MultiOutputClassifier
 
     # dummy = DummyClassifier()
@@ -33,25 +33,42 @@ def run_regression(train_embeds, train_labels, test_embeds, test_labels, args):
     log.fit(train_embeds, train_labels)
 
     n2v_scores = {}
+    n2v_scores['runtime'] = time.time() - start_time
 
     if args.label == 'single':
+        print("Single-label")
         n2v_scores['test_f1'] = f1_score(test_labels, log.predict(test_embeds), average=args.average)
-        n2v_scores['train_f1'] = f1_score(train_labels, log.predict(train_embeds), average=args.average)
-        n2v_scores['runtime'] = time.time() - start_time
+        n2v_scores['test_ap'] = average_precision_score(test_labels, log.predict_proba(test_embeds), average=args.average)
 
-        print("Test F1-score", n2v_scores['test_f1'])
-        print("Train F1-score", n2v_scores['train_f1'])
-        print("Runtime (s)", n2v_scores['runtime'])
+        n2v_scores['train_f1'] = f1_score(train_labels, log.predict(train_embeds), average=args.average)
+        n2v_scores['train_ap'] = average_precision_score(train_labels, log.predict_proba(train_embeds), average=args.average)
+
         # print("Random baseline")
         # print(f1_score(test_labels, dummy.predict(test_embeds), average=average))
     elif args.label == 'multi':
+        print("Multi-label", test_labels.shape[1])
+        n2v_scores['test_ap'] = average_precision_score(test_labels, log.predict_proba(test_embeds), average=args.average)
+        n2v_scores['test_f1'] = 0
         for i in range(test_labels.shape[1]):
-            print("F1 score", f1_score(test_labels[:,i], log.predict(test_embeds)[:,i], average="micro"))
+            n2v_scores['test_f1'] += f1_score(test_labels[:,i], log.predict(test_embeds)[:,i], average=args.average)
+            # print("F1 score", f1_score(test_labels[:,i], log.predict(test_embeds)[:,i], average=args.average))
+        n2v_scores['test_f1'] = n2v_scores['test_f1'] / test_labels.shape[1]
+
+        n2v_scores['train_ap'] = average_precision_score(train_labels, log.predict_proba(train_embeds), average=args.average)
+        n2v_scores['train_f1'] = 0
+        for i in range(train_labels.shape[1]):
+            n2v_scores['train_f1'] += f1_score(train_labels[:,i], log.predict(train_embeds)[:,i], average=args.average)
+        n2v_scores['train_f1'] = n2v_scores['train_f1'] / train_labels.shape[1]
+        
         # for i in range(test_labels.shape[1]):
             # print("Random baseline F1 score", f1_score(test_labels[:,i], dummy.predict(test_embeds)[:,i], average="micro")
     else:
         assert False
 
+    print("Test F1-score", n2v_scores['test_f1'])
+    print("Test Average Precision Score", n2v_scores['test_ap'])
+    print("Train F1-score", n2v_scores['train_f1'])
+    print("Runtime (s)", n2v_scores['runtime'])
     return n2v_scores
 
 def parse_args():
@@ -83,7 +100,7 @@ def main(args):
     test_ids = [n for n in G.nodes() if G.node[n][setting]]
 
     train_labels = np.array([labels[str(i)] for i in train_ids])
-    if train_labels.ndim == 1:
+    if args.label == "multi" and train_labels.ndim == 1:
         train_labels = np.expand_dims(train_labels, 1)
     test_labels = np.array([labels[str(i)] for i in test_ids])
     print("running", emb_dir)
