@@ -19,5 +19,5 @@ DATASPACE=/mnt/storage01/duong/dataspace/graph
 
 python node_classification/node_classifier.py --algorithm graphsage --dataset_dir ${DATASPACE}/ppi/graphsage/ \
     --embed_dir ${DATASPACE}/ppi/unsup-graphsage/graphsage_mean_small_0.000010 \
-    --prefix ppi --setting test
+    --prefix ppi --setting test --label multi
 # source activate base
