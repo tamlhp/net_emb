@@ -94,15 +94,18 @@ def main(args):
 	'''
 	Pipeline for representational learning for all nodes in a graph.
 	'''
+	print("Loading training data..")
 	nx_G = read_graph()
 	G = node2vec.Graph(nx_G, args.directed, args.p, args.q)
+	print("Preprocessing transition probs..")
 	G.preprocess_transition_probs()
+	print("Generate random walks..")
 	walks = G.simulate_walks(args.num_walks, args.walk_length)
+	print("Training phase..")
+	start_time = time.time()
 	learn_embeddings(walks)
+	print("--- %s seconds ---" % (time.time() - start_time))
 
 if __name__ == "__main__":
 	args = parse_args()
-	
-	start_time = time.time()
 	main(args)
-	print("--- %s seconds ---" % (time.time() - start_time))

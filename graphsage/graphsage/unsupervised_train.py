@@ -377,7 +377,7 @@ def train(train_data, test_data=None):
 def main(argv=None):
     print("Loading training data..")
     train_data = load_data(FLAGS.train_prefix, load_walks=True)
-    print("Done loading training data..")
+    print("Training phase..")
     start_time = time.time()
     train(train_data)
     print("--- %s seconds ---" % (time.time() - start_time))
