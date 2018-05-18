@@ -5,6 +5,7 @@ import os
 import time
 import tensorflow as tf
 import numpy as np
+import time
 
 from graphsage.models import SampleAndAggregate, SAGEInfo, Node2VecModel
 from graphsage.minibatch import EdgeMinibatchIterator
@@ -377,7 +378,9 @@ def main(argv=None):
     print("Loading training data..")
     train_data = load_data(FLAGS.train_prefix, load_walks=True)
     print("Done loading training data..")
+    start_time = time.time()
     train(train_data)
+    print("--- %s seconds ---" % (time.time() - start_time))
 
 if __name__ == '__main__':
     tf.app.run()
