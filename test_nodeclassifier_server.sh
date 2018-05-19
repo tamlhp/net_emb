@@ -23,5 +23,5 @@ DATASPACE=/mnt/storage01/duong/dataspace/graph
 
 python node_classification/node_classifier.py --algorithm node2vec --dataset_dir ${DATASPACE}/ppi/graphsage/ \
     --embed_dir ${DATASPACE}/ppi/emb/ \
-    --prefix POS --setting test --label multi
+    --prefix ppi --setting test --label multi
 # source activate base
