@@ -96,6 +96,7 @@ def main(args):
 	'''
 	print("Loading training data..")
 	nx_G = read_graph()
+	print(nx.info(nx_G))
 	G = node2vec.Graph(nx_G, args.directed, args.p, args.q)
 
 	print("Preprocessing transition probs..")
