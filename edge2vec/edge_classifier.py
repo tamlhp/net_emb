@@ -375,7 +375,7 @@ def main(args):
 
     emb_list = []
     for node_index in G.nodes:
-        node_emb = node2vec[int(node_index)]
+        node_emb = node2vec[str(node_index)]
         emb_list.append(node_emb)
     
     adj_sparse = nx.to_scipy_sparse_matrix(G)
