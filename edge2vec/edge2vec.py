@@ -17,7 +17,7 @@ def load_embedding(emb_file, args=None):
     count = 0
     num_nodes = 0
     dim_size = 0
-    node2vec = {}
+    node2vec = dict()
     with open(emb_file) as f:
         for line in f:
             if count==0:
