@@ -4,6 +4,8 @@ import time
 import argparse
 import pdb
 import edge2vec
+import pickle
+import os
 
 import scipy.sparse as sp
 import networkx as nx
@@ -93,6 +95,16 @@ def mask_test_edges(adj, args, test_frac=.1, val_frac=.05):
 
     if args.verbose == True:
         print('generating test/val sets...')
+
+    if args.cache and os.path.isdir(args.cache):
+        adj_train = pickle.load( open(args.cache + "/adj_train.pkl", "rb" ) )
+        train_edges = pickle.load( open(args.cache + "/train_edges.pkl", "rb" ) )
+        train_edges_false = pickle.load( open(args.cache + "/train_edges_false.pkl", "rb" ) )
+        val_edges = pickle.load( open(args.cache + "/val_edges.pkl", "rb" ) )
+        val_edges_false = pickle.load( open(args.cache + "/val_edges_false.pkl", "rb" ) )
+        test_edges = pickle.load( open(args.cache + "/test_edges.pkl", "rb" ) )
+        test_edges_false = pickle.load( open(args.cache + "/test_edges_false.pkl", "rb" ) )
+        return adj_train, train_edges, train_edges_false, val_edges, val_edges_false, test_edges, test_edges_false
 
     # Iterate over shuffled edges, add to train/val sets
     np.random.shuffle(edge_tuples)
@@ -229,6 +241,16 @@ def mask_test_edges(adj, args, test_frac=.1, val_frac=.05):
         print("--- %s seconds ---" % (time.time() - start_time))
 
     assert len(train_edges) > 0 and len(test_edges) > 0 and len(val_edges) > 0
+
+    if args.cache:
+        os.mkdir(args.cache)
+        pickle.dump(adj_train, open(args.cache + "/adj_train.pkl", "wb" ) )
+        pickle.dump(train_edges, open(args.cache + "/train_edges.pkl", "wb" ) )
+        pickle.dump(train_edges_false, open(args.cache + "/train_edges_false.pkl", "wb" ) )
+        pickle.dump(val_edges, open(args.cache + "/val_edges.pkl", "wb" ) )
+        pickle.dump(val_edges_false, open(args.cache + "/val_edges_false.pkl", "wb" ) )
+        pickle.dump(test_edges, open(args.cache + "/test_edges.pkl", "wb" ) )
+        pickle.dump(test_edges_false, open(args.cache + "/test_edges_false.pkl", "wb" ) )
 
     # NOTE: these edge lists only contain single direction of edge!
     return adj_train, train_edges, train_edges_false, \
@@ -375,6 +397,7 @@ def parse_args():
     parser = argparse.ArgumentParser(description="Link prediction")
     parser.add_argument('--edgelist', default="/Users/tnguyen/dataspace/graph/wikipedia/edgelist/POS.edgelist", help='Edgelist file')
     parser.add_argument('--nodeemb', default="/Users/tnguyen/dataspace/graph/wikipedia/emb/POS.emb", help='Node embedding file')
+    parser.add_argument('--cache', nargs='?', default='', help='Cache folder for train test split')
     parser.add_argument('--weighted', action='store_true', default=False, help='Weighted or not')
     parser.add_argument('--prevent_disconnect', action='store_true', default=True, help='Edge discard strategy for link prediction')
     parser.add_argument('--verbose', action='store_true', default=False, help='Verbose or not')
