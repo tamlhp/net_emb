@@ -63,7 +63,8 @@ def load_cora(folder):
         json.dump(reverse_map, outfile)
     with open(folder + '/graphsage/ncora-class_map.json', 'w') as outfile:
         json.dump(class_map, outfile)
-
+    
+    print(nx.info(G))
     print(folder + "/graphsage/")
     return
 
@@ -104,7 +105,24 @@ def load_wiki(folder):
     #     json.dump(reverse_map, outfile)
     with open(folder + '/graphsage/POS-class_map.json', 'w') as outfile:
         json.dump(class_map, outfile)
+    
+    print(nx.info(G))
+    print(folder + "/graphsage/")
+    return
 
+def load_astroph(folder):
+    G = nx.read_edgelist(folder + "/edgelist/ca-astroph.edgelist")
+
+    id_map = {}
+    for i, node in enumerate(G.nodes):
+        id_map[str(node)] = i
+
+    with open(folder + '/graphsage/ca-astroph-G.json', 'w') as outfile:
+        json.dump(json_graph.node_link_data(G), outfile)
+    with open(folder + '/graphsage/ca-astroph-id_map.json', 'w') as outfile:
+        json.dump(id_map, outfile)
+    
+    print(nx.info(G))
     print(folder + "/graphsage/")
     return
 
@@ -113,12 +131,15 @@ def main(args):
         load_wiki(args.wiki)
     if args.cora:
         load_cora(args.cora)
+    if args.astroph:
+        load_astroph(args.astroph)
     return
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Convert graph data to graphsage format.")
     parser.add_argument('--wiki', nargs='?', default='', help='Wikipedia data path')
     parser.add_argument('--cora', nargs='?', default='', help='Cora data path')
+    parser.add_argument('--astroph', nargs='?', default='', help='Astroph data path')
     return parser.parse_args()
 
 def test1():
