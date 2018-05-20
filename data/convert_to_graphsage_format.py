@@ -111,7 +111,7 @@ def load_wiki(folder):
     return
 
 def load_astroph(folder):
-    G = nx.read_edgelist(folder + "/edgelist/ca-astroph.edgelist", nodetype=int)
+    G = nx.read_edgelist(folder + "/edgelist/ca-astroph.edgelist")
 
     id_map = {}
     for i, node in enumerate(G.nodes):
