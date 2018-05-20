@@ -17,7 +17,7 @@ assert (major <= 1) and (minor <= 11), "networkx major version > 1.11"
 WALK_LEN=5
 N_WALKS=50
 
-def load_data(prefix, normalize=True, load_walks=False):
+def load_data(prefix, normalize=True, load_walks=False, unsupervised=False):
     G_data = json.load(open(prefix + "-G.json"))
     G = json_graph.node_link_graph(G_data)
     print(nx.info(G))
@@ -34,13 +34,17 @@ def load_data(prefix, normalize=True, load_walks=False):
     id_map = json.load(open(prefix + "-id_map.json"))
     id_map = {conversion(k):int(v) for k,v in id_map.items()}
     walks = []
-    class_map = json.load(open(prefix + "-class_map.json"))
-    if isinstance(list(class_map.values())[0], list):
-        lab_conversion = lambda n : n
-    else:
-        lab_conversion = lambda n : int(n)
 
-    class_map = {conversion(k):lab_conversion(v) for k,v in class_map.items()}
+    if unsupervised:
+        class_map = None
+    else:
+        class_map = json.load(open(prefix + "-class_map.json"))
+        if isinstance(list(class_map.values())[0], list):
+            lab_conversion = lambda n : n
+        else:
+            lab_conversion = lambda n : int(n)
+
+        class_map = {conversion(k):lab_conversion(v) for k,v in class_map.items()}
 
     ## Remove all nodes that do not have val/test annotations
     ## (necessary because of networkx weirdness with the Reddit data)
