@@ -113,7 +113,7 @@ def load_wiki(folder):
 def load_astroph(folder):
     G = nx.read_edgelist(folder + "/edgelist/ca-astroph.edgelist")
 
-    num_nodes = len(G.nodes)
+    num_nodes = len(G.nodes())
     np.random.seed(1)
     random.seed(1)
     rand_indices = np.random.permutation(num_nodes)
