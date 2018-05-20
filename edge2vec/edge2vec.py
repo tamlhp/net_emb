@@ -26,7 +26,7 @@ def load_embedding(emb_file, args=None):
                 data = line.split()
                 node_id = data[0]
                 vector = np.array(data[1:]).astype(np.float)
-                node2vec[node_id] = vector
+                node2vec[str(node_id)] = vector
             count += 1
     return node2vec, num_nodes, dim_size
 
@@ -34,7 +34,7 @@ def edge_emb(G, node2vec, func, args=None):
     edge2vec = {}
     for u,v,a in G.edges(data=True):
         t = (u,v)
-        edge2vec[t] = func(node2vec[u], node2vec[v])
+        edge2vec[t] = func(node2vec[str(u)], node2vec[str(v)])
     return edge2vec
 
 def avg(x,y):
