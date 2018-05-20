@@ -18,6 +18,7 @@ def load_embedding(emb_file, args=None):
     num_nodes = 0
     dim_size = 0
     node2vec = {}
+    id_map = {}
     with open(emb_file) as f:
         for line in f:
             if count==0:
@@ -27,8 +28,9 @@ def load_embedding(emb_file, args=None):
                 node_id = data[0]
                 vector = np.array(data[1:]).astype(np.float)
                 node2vec[str(node_id)] = vector
+                id_map[str(node_id)] = count - 1
             count += 1
-    return node2vec, num_nodes, dim_size
+    return node2vec, id_map, num_nodes, dim_size
 
 def edge_emb(G, node2vec, func, args=None):
     edge2vec = {}
@@ -51,7 +53,7 @@ def l2(x,y, weight=1):
 
 def main(args):
     G = load_edgelist(args.edgelist, args)
-    node2vec, num_nodes, dim_size = load_embedding(args.nodeemb)
+    node2vec, id_map, num_nodes, dim_size = load_embedding(args.nodeemb)
     func = globals()[args.func]
     edge2vec = edge_emb(G, node2vec, func)
     with open(args.output, 'w') as f:

@@ -6,6 +6,7 @@ import pdb
 import edge2vec
 import pickle
 import os
+import json
 
 import scipy.sparse as sp
 import networkx as nx
@@ -370,13 +371,24 @@ def edge_classify(emb_list, train_test_split, args):
     return n2v_scores
 
 def main(args):
-    node2vec, num_nodes, dim_size  = edge2vec.load_embedding(args.nodeemb)
-    G = edge2vec.load_edgelist(args.edgelist, args)
+    if args.algorithm == 'node2vec':
+        node2vec, id_map, num_nodes, dim_size  = edge2vec.load_embedding("{0}/{1}.emb".format(args.embed_dir, args.prefix))
+        G = edge2vec.load_edgelist(args.edgelist, args)
+        embeds = np.zeros(shape=(num_nodes, dim_size))
+        for node_index in node2vec:
+            node_emb = node2vec[node_index]
+            embeds[id_map[node_index] = node_emb
+    elif args.algorithm == 'graphsage':
+        G = json_graph.node_link_graph(json.load(open("{0}/{1}-G.json".format(args.dataset_dir, args.prefix))))
+        embeds = np.load(args.embed_dir + "/val.npy")
+        id_map = {}
+        with open(args.embed_dir + "/val.txt") as fp:
+            for i, line in enumerate(fp):
+                id_map[str(line.strip())] = i
 
-    emb_list = []
-    for node_index in G.nodes:
-        node_emb = node2vec[str(node_index)]
-        emb_list.append(node_emb)
+        #Take all nodes for testing
+        node_ids = [n for n in G.nodes()]
+        embeds = embeds[[id_map[str(id)] for id in node_ids]] 
     
     adj_sparse = nx.to_scipy_sparse_matrix(G)
     train_test_split = mask_test_edges(adj_sparse, args)
@@ -395,13 +407,15 @@ def main(args):
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Link prediction")
-    parser.add_argument('--edgelist', default="/Users/tnguyen/dataspace/graph/wikipedia/edgelist/POS.edgelist", help='Edgelist file')
-    parser.add_argument('--nodeemb', default="/Users/tnguyen/dataspace/graph/wikipedia/emb/POS.emb", help='Node embedding file')
+    parser.add_argument('--dataset_dir', default="/Users/tnguyen/dataspace/graph/wikipedia/", help='Edgelist file')
+    parser.add_argument("--prefix", default="POS", help="Prefix to access the dataset")
+    parser.add_argument('--embed_dir', default="/Users/tnguyen/dataspace/graph/wikipedia/emb/", help='Node embedding file')
     parser.add_argument('--cache', nargs='?', default='', help='Cache folder for train test split')
     parser.add_argument('--weighted', action='store_true', default=False, help='Weighted or not')
     parser.add_argument('--prevent_disconnect', action='store_true', default=True, help='Edge discard strategy for link prediction')
     parser.add_argument('--verbose', action='store_true', default=False, help='Verbose or not')
     parser.add_argument('--func', choices=['avg', 'hadamard','l1', 'l2'], default="hadamard", help='Binary operator')
+    parser.add_argument('--algorithm', choices=['node2vec', 'graphsage'], default="graphsage", help='Network embedding algorithm')
     parser.add_argument('--edge_score_mode', choices=['edge-emb', 'dot-product'], default="edge-emb", help='Edge embedding choice')
     return parser.parse_args()
 
