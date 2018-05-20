@@ -28,6 +28,7 @@ def load_embedding(emb_file, args=None):
                 vector = np.array(data[1:]).astype(np.float)
                 node2vec[str(node_id)] = vector
             count += 1
+    pdb.set_trace()
     return node2vec, num_nodes, dim_size
 
 def edge_emb(G, node2vec, func, args=None):
