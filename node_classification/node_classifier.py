@@ -125,11 +125,11 @@ def main(args):
                 for i, line in enumerate(fp):
                     id_map[line.strip()] = i
         elif args.algorithm == 'node2vec':
-            node2vec, num_nodes, dim_size = edge2vec.load_embedding("{0}/{1}.emb".format(emb_dir, prefix))
-            id_map = json.load(open("{0}/{1}-id_map.json".format(dataset_dir, prefix)))
+            node2vec, id_map, num_nodes, dim_size = edge2vec.load_embedding("{0}/{1}.emb".format(emb_dir, prefix))
+            # id_map = json.load(open("{0}/{1}-id_map.json".format(dataset_dir, prefix)))
             embeds = np.zeros(shape=(num_nodes, dim_size))
-            for id in id_map:
-                embeds[id_map[id]] = node2vec[str(id)]
+            for id in node2vec:
+                embeds[id_map[id]] = node2vec[id]
         else:
             assert False
 
