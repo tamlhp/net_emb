@@ -388,10 +388,11 @@ def main(args):
                 id_map[str(line.strip())] = i
 
         #Take all nodes for testing
-        pdb.set_trace()
-        node_ids = [n for n in G.nodes()]
-        embeds = embeds[[id_map[str(id)] for id in node_ids]] 
+        # node_ids = [n for n in G.nodes()]
+        # embeds = embeds[[id_map[str(id)] for id in node_ids]] 
     
+    print(nx.info(G))
+
     adj_sparse = nx.to_scipy_sparse_matrix(G)
     train_test_split = mask_test_edges(adj_sparse, args)
 

@@ -1,6 +1,7 @@
 # DATASPACE=/Users/tnguyen/dataspace/graph
 DATASPACE=/mnt/storage01/duong/dataspace/graph
-# source activate python2
+source activate tensorflow
+
 # python ./edge2vec/edge_classifier.py --algorithm graphsage --dataset_dir ${DATASPACE}/wikipedia/graphsage --embed_dir ${DATASPACE}/wikipedia/unsup-graphsage/graphsage_mean_small_0.000010 \
 #     --prefix POS --weighted --func hadamard --verbose --cache ${DATASPACE}/wikipedia/cache-graphsage/
 
@@ -12,4 +13,5 @@ DATASPACE=/mnt/storage01/duong/dataspace/graph
 
 python ./edge2vec/edge_classifier.py --algorithm node2vec --dataset_dir ${DATASPACE}/ca-astroph/ --embed_dir ${DATASPACE}/ca-astroph/emb/ \
      --prefix ca-astroph --func hadamard --verbose --cache ${DATASPACE}/ca-astroph/cache-node2vec/
-# source activate base
+
+source activate base
