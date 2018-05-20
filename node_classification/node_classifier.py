@@ -128,8 +128,8 @@ def main(args):
             node2vec, num_nodes, dim_size = edge2vec.load_embedding("{0}/{1}.emb".format(emb_dir, prefix))
             id_map = json.load(open("{0}/{1}-id_map.json".format(dataset_dir, prefix)))
             embeds = np.zeros(shape=(num_nodes, dim_size))
-            for i in range(num_nodes):
-                embeds[i] = node2vec[str(i)]
+            for id in id_map:
+                embeds[id_map[id]] = node2vec[str(id)]
         else:
             assert False
 

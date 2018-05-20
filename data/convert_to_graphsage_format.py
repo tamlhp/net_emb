@@ -120,10 +120,11 @@ def load_astroph(folder):
     res = json_graph.node_link_data(G)
     res['links'] = [
         {
-            'source': res['nodes'][link['source']]['name'],
-            'target': res['nodes'][link['target']]['name']
+            'source': id_map[link['source']],
+            'target': id_map[link['target']]
         }
         for link in res['links']]
+    pdb.set_trace()
     with open(folder + '/graphsage/ca-astroph-G.json', 'w') as outfile:
         json.dump(res, outfile)
     with open(folder + '/graphsage/ca-astroph-id_map.json', 'w') as outfile:
