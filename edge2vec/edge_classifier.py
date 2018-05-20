@@ -388,6 +388,7 @@ def main(args):
                 id_map[str(line.strip())] = i
 
         #Take all nodes for testing
+        pdb.set_trace()
         node_ids = [n for n in G.nodes()]
         embeds = embeds[[id_map[str(id)] for id in node_ids]] 
     
