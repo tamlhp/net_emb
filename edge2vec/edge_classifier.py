@@ -373,7 +373,7 @@ def edge_classify(emb_list, train_test_split, args):
 def main(args):
     if args.algorithm == 'node2vec':
         node2vec, id_map, num_nodes, dim_size  = edge2vec.load_embedding("{0}/{1}.emb".format(args.embed_dir, args.prefix))
-        G = edge2vec.load_edgelist(args.edgelist, args)
+        G = edge2vec.load_edgelist("{0}/edgelist/{1}.edgelist".format(args.dataset_dir, args.prefix), args)
         embeds = np.zeros(shape=(num_nodes, dim_size))
         for node_index in node2vec:
             node_emb = node2vec[node_index]
