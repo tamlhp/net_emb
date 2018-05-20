@@ -8,5 +8,5 @@ DATASPACE=/mnt/storage01/duong/dataspace/graph
 #     --weighted --func hadamard --verbose
 
 python ./edge2vec/edge_classifier.py --edgelist ${DATASPACE}/ca-astroph/edgelist/ca-astroph.edgelist --nodeemb ${DATASPACE}/ca-astroph/emb/ca-astroph.emb \
-    --weighted --func hadamard --verbose --cache ${DATASPACE}/ca-astroph/cache-node2vec/
+     --func hadamard --verbose --cache ${DATASPACE}/ca-astroph/cache-node2vec/
 # source activate base
