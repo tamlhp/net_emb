@@ -113,11 +113,26 @@ def load_wiki(folder):
 def load_astroph(folder):
     G = nx.read_edgelist(folder + "/edgelist/ca-astroph.edgelist")
 
+    num_nodes = len(G.nodes)
+    np.random.seed(1)
+    random.seed(1)
+    rand_indices = np.random.permutation(num_nodes)
+    train = rand_indices[:int(num_nodes * 0.64)]
+    val = rand_indices[int(num_nodes * 0.64):int(num_nodes * 0.8)]
+    test = rand_indices[int(num_nodes * 0.8):]
+
     id_map = {}
     for i, node in enumerate(G.nodes):
         id_map[str(node)] = i
 
     res = json_graph.node_link_data(G)
+    res['nodes'] = [
+        {
+            'id': node['id'],
+            'val': id_map[str(node['id'])] in val,
+            'test': id_map[str(node['id'])] in test
+        }
+        for node in res['nodes']]
     res['links'] = [
         {
             'source': id_map[link['source']],
