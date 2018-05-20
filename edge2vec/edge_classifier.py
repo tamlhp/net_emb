@@ -370,7 +370,7 @@ def edge_classify(emb_list, train_test_split, args):
     return n2v_scores
 
 def main(args):
-    node2vec = edge2vec.load_embedding(args.nodeemb)
+    node2vec, num_nodes, dim_size  = edge2vec.load_embedding(args.nodeemb)
     G = edge2vec.load_edgelist(args.edgelist, args)
 
     emb_list = []

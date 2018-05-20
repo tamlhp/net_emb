@@ -17,7 +17,7 @@ def load_embedding(emb_file, args=None):
     count = 0
     num_nodes = 0
     dim_size = 0
-    node2vec = dict()
+    node2vec = {}
     with open(emb_file) as f:
         for line in f:
             if count==0:
@@ -28,7 +28,6 @@ def load_embedding(emb_file, args=None):
                 vector = np.array(data[1:]).astype(np.float)
                 node2vec[str(node_id)] = vector
             count += 1
-    pdb.set_trace()
     return node2vec, num_nodes, dim_size
 
 def edge_emb(G, node2vec, func, args=None):
