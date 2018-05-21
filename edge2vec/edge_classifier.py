@@ -404,7 +404,7 @@ def main(args):
     }
 
     args.func = funcs.get(args.func, edge2vec.hadamard)
-    scores = edge_classify(emb_list,train_test_split, args)
+    scores = edge_classify(embeds,train_test_split, args)
     print(scores)
     return
 
