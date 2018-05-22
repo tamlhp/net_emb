@@ -148,6 +148,82 @@ def load_astroph(folder):
     print(folder + "/graphsage/")
     return
 
+def load_blog(folder):
+    G = nx.read_edgelist(folder + "/edgelist/blog.edgelist")
+
+    num_nodes = len(G.nodes())
+    np.random.seed(1)
+    random.seed(1)
+    rand_indices = np.random.permutation(num_nodes)
+    train = rand_indices[:int(num_nodes * 0.64)]
+    val = rand_indices[int(num_nodes * 0.64):int(num_nodes * 0.8)]
+    test = rand_indices[int(num_nodes * 0.8):]
+
+    id_map = {}
+    for i, node in enumerate(G.nodes):
+        id_map[str(node)] = i
+
+    res = json_graph.node_link_data(G)
+    res['nodes'] = [
+        {
+            'id': node['id'],
+            'val': id_map[str(node['id'])] in val,
+            'test': id_map[str(node['id'])] in test
+        }
+        for node in res['nodes']]
+    res['links'] = [
+        {
+            'source': id_map[link['source']],
+            'target': id_map[link['target']]
+        }
+        for link in res['links']]
+    with open(folder + '/graphsage/blog-G.json', 'w') as outfile:
+        json.dump(res, outfile)
+    with open(folder + '/graphsage/blog-id_map.json', 'w') as outfile:
+        json.dump(id_map, outfile)
+    
+    print(nx.info(G))
+    print(folder + "/graphsage/")
+    return
+
+def load_facebook(folder):
+    G = nx.read_edgelist(folder + "/edgelist/facebook.edgelist")
+
+    num_nodes = len(G.nodes())
+    np.random.seed(1)
+    random.seed(1)
+    rand_indices = np.random.permutation(num_nodes)
+    train = rand_indices[:int(num_nodes * 0.64)]
+    val = rand_indices[int(num_nodes * 0.64):int(num_nodes * 0.8)]
+    test = rand_indices[int(num_nodes * 0.8):]
+
+    id_map = {}
+    for i, node in enumerate(G.nodes):
+        id_map[str(node)] = i
+
+    res = json_graph.node_link_data(G)
+    res['nodes'] = [
+        {
+            'id': node['id'],
+            'val': id_map[str(node['id'])] in val,
+            'test': id_map[str(node['id'])] in test
+        }
+        for node in res['nodes']]
+    res['links'] = [
+        {
+            'source': id_map[link['source']],
+            'target': id_map[link['target']]
+        }
+        for link in res['links']]
+    with open(folder + '/graphsage/facebook-G.json', 'w') as outfile:
+        json.dump(res, outfile)
+    with open(folder + '/graphsage/facebook-id_map.json', 'w') as outfile:
+        json.dump(id_map, outfile)
+    
+    print(nx.info(G))
+    print(folder + "/graphsage/")
+    return
+
 def main(args):
     if args.wiki:
         load_wiki(args.wiki)
@@ -155,6 +231,10 @@ def main(args):
         load_cora(args.cora)
     if args.astroph:
         load_astroph(args.astroph)
+    if args.blog:
+        load_blog(args.blog)
+    if args.facebook:
+        load_facebook(args.facebook)
     return
 
 def parse_args():
@@ -162,6 +242,8 @@ def parse_args():
     parser.add_argument('--wiki', nargs='?', default='', help='Wikipedia data path')
     parser.add_argument('--cora', nargs='?', default='', help='Cora data path')
     parser.add_argument('--astroph', nargs='?', default='', help='Astroph data path')
+    parser.add_argument('--blog', nargs='?', default='', help='BlogCatalog data path')
+    parser.add_argument('--facebook', nargs='?', default='', help='Facebook data path')
     return parser.parse_args()
 
 def test1():

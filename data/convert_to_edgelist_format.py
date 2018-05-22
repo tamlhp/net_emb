@@ -11,6 +11,7 @@ import argparse
 import math
 import sys
 import pdb
+import csv
 
 def load_cora(folder):
     G = nx.Graph()
@@ -59,6 +60,14 @@ def load_ppi(folder):
     print(folder + "/edgelist/")
     return
 
+def load_blog(folder):
+    G = nx.read_edgelist(folder + "/edges.csv", delimiter=",")
+    print(nx.info(G))
+    print("Diameter: " + str(nx.diameter(G)))
+    nx.write_edgelist(G, path=folder + "/edgelist/blog.edgelist", delimiter=" ", data=['weight'])
+    print(folder + "/edgelist/")
+    return
+
 def main(args):
     if args.wiki:
         load_wiki(args.wiki)
@@ -68,6 +77,8 @@ def main(args):
         load_reddit(args.reddit)
     if args.ppi:
         load_ppi(args.ppi)
+    if args.blog:
+        load_blog(args.blog)
     return
 
 def parse_args():
@@ -76,6 +87,7 @@ def parse_args():
     parser.add_argument('--cora', nargs='?', default='', help='Cora data path')
     parser.add_argument('--reddit', nargs='?', default='', help='Reddit data path')
     parser.add_argument('--ppi', nargs='?', default='', help='PPI data path')
+    parser.add_argument('--blog', nargs='?', default='', help='BlogCatalog data path')
     return parser.parse_args()
 
 def test1():
