@@ -1,8 +1,7 @@
 DATASPACE=/mnt/storage01/duong/dataspace/graph
 source activate python2
 
-python ./node2vec/src/main.py --input ${DATASPACE}/facebook/edgelist/facebook.edgelist --output ${DATASPACE}/reddit/emb/facebook.emb
-python data/export_tsv.py --algorithm node2vec --prefix facebook --dataset ${DATASPACE}/facebook/emb/ --tsv ${DATASPACE}/facebook/tsv
+python ./node2vec/src/main.py --input ${DATASPACE}/facebook/edgelist/facebook.edgelist --output ${DATASPACE}/facebook/emb/facebook.emb
 
 # python ./node2vec/src/main.py --input ${DATASPACE}/karate/edgelist/karate.edgelist --output ${DATASPACE}/karate/emb/karate.emb
 # python ./node2vec/src/main.py --input /dataspace/graph/ppi/edgelist/ppi-subgraph.edgelist --output dataspace/graph/ppi/emb/ppi-subgraph.emb
