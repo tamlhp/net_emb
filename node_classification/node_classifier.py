@@ -1,6 +1,7 @@
 from __future__ import print_function, division
 import json
 import time
+import random
 import numpy as np
 import pdb
 import sys
@@ -11,11 +12,12 @@ import networkx as nx
 from networkx.readwrite import json_graph
 from argparse import ArgumentParser
 
+seed = 123
+np.random.seed(seed)
+random.seed(seed)
+
 def run_regression(train_embeds, train_labels, test_embeds, test_labels, args):
     start_time = time.time()
-
-    np.random.seed(1)
-
 
     from sklearn.linear_model import SGDClassifier
     from sklearn.dummy import DummyClassifier

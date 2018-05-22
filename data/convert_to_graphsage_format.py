@@ -12,7 +12,7 @@ import math
 import sys
 import pdb
 
-seed = 1
+seed = 123
 np.random.seed(seed)
 random.seed(seed)
 
@@ -76,9 +76,9 @@ def load_wiki(folder):
     num_nodes = data['group'].shape[0]
     print(num_nodes)
     rand_indices = np.random.permutation(num_nodes)
-    train = rand_indices[:int(num_nodes * 0.64)]
-    val = rand_indices[int(num_nodes * 0.64):int(num_nodes * 0.8)]
-    test = rand_indices[int(num_nodes * 0.8):]
+    train = rand_indices[:int(num_nodes * 0.81)]
+    val = rand_indices[int(num_nodes * 0.81):int(num_nodes * 0.9)]
+    test = rand_indices[int(num_nodes * 0.9):]
     
     G = nx.Graph()
     class_map = {}
@@ -185,9 +185,9 @@ def load_facebook(folder):
 
     num_nodes = len(G.nodes())
     rand_indices = np.random.permutation(num_nodes)
-    train = rand_indices[:int(num_nodes * 0.64)]
-    val = rand_indices[int(num_nodes * 0.64):int(num_nodes * 0.8)]
-    test = rand_indices[int(num_nodes * 0.8):]
+    train = rand_indices[:int(num_nodes * 0.81)]
+    val = rand_indices[int(num_nodes * 0.81):int(num_nodes * 0.9)]
+    test = rand_indices[int(num_nodes * 0.9):]
 
     id_map = {}
     for i, node in enumerate(G.nodes):
@@ -220,9 +220,9 @@ def load_ppi(folder):
 
     num_nodes = len(G.nodes())
     rand_indices = np.random.permutation(num_nodes)
-    train = rand_indices[:int(num_nodes * 0.64)]
-    val = rand_indices[int(num_nodes * 0.64):int(num_nodes * 0.8)]
-    test = rand_indices[int(num_nodes * 0.8):]
+    train = rand_indices[:int(num_nodes * 0.81)]
+    val = rand_indices[int(num_nodes * 0.81):int(num_nodes * 0.9)]
+    test = rand_indices[int(num_nodes * 0.9):]
 
     id_map = {}
     for i, node in enumerate(G.nodes):
