@@ -6,6 +6,7 @@ import time
 import tensorflow as tf
 import numpy as np
 import time
+import random
 
 from graphsage.models import SampleAndAggregate, SAGEInfo, Node2VecModel
 from graphsage.minibatch import EdgeMinibatchIterator
