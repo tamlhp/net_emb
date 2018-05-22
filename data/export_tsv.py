@@ -13,9 +13,9 @@ def parse_args():
 
 
 def main(args):
-    writer = open("{0}/{1}-{2}.tsv".format(args.tsv, args.prefix, args.algorithm), "wb")
+    writer = open("{0}/{1}-{2}.tsv".format(args.tsv, args.prefix, args.algorithm), "wt")
     if args.algorithm == 'node2vec':   
-        reader = open("{0}/emb/{1}.emb".format(args.dataset, args.prefix), "rb")
+        reader = open("{0}/emb/{1}.emb".format(args.dataset, args.prefix), "rt")
         reader.readline()
         for line in reader:
             data = line.split()
@@ -23,7 +23,7 @@ def main(args):
             writer.write("\n")
         
     elif args.algorithm == 'graphsage':
-        embeds = np.load(args.dataset + "/unsup-karate/graphsage_mean_small_0.000010/val.npy")
+        embeds = np.load(args.dataset + "/unsup-graphsage/graphsage_mean_small_0.000010/val.npy")
         for embed in embeds:
             writer.write("\t".join(map(str, embed)))
             writer.write("\n")
