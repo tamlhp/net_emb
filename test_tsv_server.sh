@@ -9,4 +9,5 @@ python data/export_tsv.py --algorithm graphsage --prefix POS --emb ${DATASPACE}/
 python data/export_tsv.py --algorithm node2vec --prefix blog --emb ${DATASPACE}/blogcatalog/emb/ --tsv ${DATASPACE}/blogcatalog/tsv
 python data/export_tsv.py --algorithm graphsage --prefix blog --emb ${DATASPACE}/blogcatalog/unsup-graphsage/gcn_big_0.000010/ --tsv ${DATASPACE}/blogcatalog/tsv
 
-python data/export_tsv.py --algorithm graphsage --prefix ca-astroph --dataset ${DATASPACE}/ca-astroph/unsup-graphsage/graphsage_mean_small_0.000010/ --tsv ${DATASPACE}/ca-astroph/tsv
+python data/export_tsv.py --algorithm node2vec --prefix ca-astroph --emb ${DATASPACE}/ca-astroph/emb/ --tsv ${DATASPACE}/ca-astroph/tsv
+python data/export_tsv.py --algorithm graphsage --prefix ca-astroph --emb ${DATASPACE}/ca-astroph/unsup-graphsage/gcn_big_0.000010/ --tsv ${DATASPACE}/ca-astroph/tsv
