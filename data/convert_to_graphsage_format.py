@@ -118,7 +118,7 @@ def load_astroph(folder):
     test = rand_indices[int(num_nodes * 0.8):]
 
     id_map = {}
-    for i, node in enumerate(G.nodes):
+    for i, node in enumerate(G.nodes()):
         id_map[str(node)] = i
 
     res = json_graph.node_link_data(G)
@@ -155,7 +155,7 @@ def load_blog(folder):
     test = rand_indices[int(num_nodes * 0.8):]
 
     id_map = {}
-    for i, node in enumerate(G.nodes):
+    for i, node in enumerate(G.nodes()):
         id_map[str(node)] = i
 
     res = json_graph.node_link_data(G)
@@ -190,7 +190,7 @@ def load_facebook(folder):
     test = rand_indices[int(num_nodes * 0.9):]
 
     id_map = {}
-    for i, node in enumerate(G.nodes):
+    for i, node in enumerate(G.nodes()):
         id_map[str(node)] = i
 
     res = json_graph.node_link_data(G)
@@ -225,7 +225,7 @@ def load_ppi(folder):
     test = rand_indices[int(num_nodes * 0.9):]
 
     id_map = {}
-    for i, node in enumerate(G.nodes):
+    for i, node in enumerate(G.nodes()):
         id_map[str(node)] = i
 
     res = json_graph.node_link_data(G)
