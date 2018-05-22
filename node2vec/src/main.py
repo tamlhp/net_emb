@@ -13,8 +13,13 @@ import argparse
 import numpy as np
 import networkx as nx
 import node2vec
+import random
 from gensim.models import Word2Vec
 import time
+
+seed = 123
+np.random.seed(seed)
+random.seed(seed)
 
 def parse_args():
 	'''

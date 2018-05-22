@@ -12,6 +12,10 @@ import math
 import sys
 import pdb
 
+seed = 1
+np.random.seed(seed)
+random.seed(seed)
+
 def load_cora(folder):
     G = nx.Graph()
     num_nodes = 2709
@@ -23,8 +27,6 @@ def load_cora(folder):
     reverse_map = {}
     label_map = {}
     class_map = {}
-    np.random.seed(1)
-    random.seed(1)
     rand_indices = np.random.permutation(num_nodes)
     test = rand_indices[:1000]
     val = rand_indices[1000:1500]
@@ -73,8 +75,6 @@ def load_wiki(folder):
     
     num_nodes = data['group'].shape[0]
     print(num_nodes)
-    np.random.seed(1)
-    random.seed(1)
     rand_indices = np.random.permutation(num_nodes)
     train = rand_indices[:int(num_nodes * 0.64)]
     val = rand_indices[int(num_nodes * 0.64):int(num_nodes * 0.8)]
@@ -112,8 +112,6 @@ def load_astroph(folder):
     G = nx.read_edgelist(folder + "/edgelist/ca-astroph.edgelist")
 
     num_nodes = len(G.nodes())
-    np.random.seed(1)
-    random.seed(1)
     rand_indices = np.random.permutation(num_nodes)
     train = rand_indices[:int(num_nodes * 0.64)]
     val = rand_indices[int(num_nodes * 0.64):int(num_nodes * 0.8)]
@@ -186,8 +184,6 @@ def load_facebook(folder):
     G = nx.read_edgelist(folder + "/edgelist/facebook.edgelist")
 
     num_nodes = len(G.nodes())
-    np.random.seed(1)
-    random.seed(1)
     rand_indices = np.random.permutation(num_nodes)
     train = rand_indices[:int(num_nodes * 0.64)]
     val = rand_indices[int(num_nodes * 0.64):int(num_nodes * 0.8)]
@@ -223,8 +219,6 @@ def load_ppi(folder):
     G = nx.read_edgelist(folder + "/edgelist/ppi.edgelist")
 
     num_nodes = len(G.nodes())
-    np.random.seed(1)
-    random.seed(1)
     rand_indices = np.random.permutation(num_nodes)
     train = rand_indices[:int(num_nodes * 0.64)]
     val = rand_indices[int(num_nodes * 0.64):int(num_nodes * 0.8)]

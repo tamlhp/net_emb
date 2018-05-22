@@ -19,6 +19,7 @@ os.environ['CUDA_VISIBLE_DEVICES'] = '1'
 seed = 123
 np.random.seed(seed)
 tf.set_random_seed(seed)
+random.seed(seed)
 
 # Settings
 flags = tf.app.flags
