@@ -6,6 +6,6 @@ source activate tensorflow
 # python data/convert_to_edgelist_format.py --ppi ${DATASPACE}/ppi --stat
 # python data/convert_to_edgelist_format.py --wiki ${DATASPACE}/wikipedia --stat
 
-python data/convert_to_graphsage_format.py --facebook ${DATASPACE}/facebook
-
 source activate base
+
+python data/convert_to_graphsage_format.py --facebook ${DATASPACE}/facebook
