@@ -17,6 +17,10 @@ assert (major <= 1) and (minor <= 11), "networkx major version > 1.11"
 WALK_LEN=5
 N_WALKS=50
 
+seed = 123
+np.random.seed(seed)
+random.seed(seed)
+
 def load_data(prefix, normalize=True, load_walks=False, unsupervised=False):
     G_data = json.load(open(prefix + "-G.json"))
     G = json_graph.node_link_graph(G_data)
