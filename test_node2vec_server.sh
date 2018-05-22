@@ -3,7 +3,8 @@ source activate python2
 
 # python ./node2vec/src/main.py --input ${DATASPACE}/facebook/edgelist/facebook.edgelist --output ${DATASPACE}/facebook/emb/facebook.emb
 # python ./node2vec/src/main.py --input ${DATASPACE}/wikipedia/edgelist/POS.edgelist --output ${DATASPACE}/wikipedia/emb/POS.emb --weighted
-python ./node2vec/src/main.py --input ${DATASPACE}/blogcatalog/edgelist/blog.edgelist --output ${DATASPACE}/blogcatalog/emb/blog.emb
+# python ./node2vec/src/main.py --input ${DATASPACE}/blogcatalog/edgelist/blog.edgelist --output ${DATASPACE}/blogcatalog/emb/blog.emb
+python ./node2vec/src/main.py --input ${DATASPACE}/ca-astroph/edgelist/ca-astroph.edgelist --output ${DATASPACE}/ca-astroph/emb/ca-astroph.emb
 
 # python ./node2vec/src/main.py --input ${DATASPACE}/karate/edgelist/karate.edgelist --output ${DATASPACE}/karate/emb/karate.emb
 # python ./node2vec/src/main.py --input /dataspace/graph/ppi/edgelist/ppi-subgraph.edgelist --output dataspace/graph/ppi/emb/ppi-subgraph.emb
