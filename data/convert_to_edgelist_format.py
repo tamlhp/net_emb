@@ -12,6 +12,7 @@ import math
 import sys
 import pdb
 import csv
+import utils
 
 def load_cora(folder):
     G = nx.Graph()
@@ -30,55 +31,56 @@ def load_cora(folder):
             paper2 = node_map[info[1]]
             G.add_edge(paper1, paper2)
 
-    print(nx.info(G))
     nx.write_edgelist(G, folder + '/edgelist/cora.edgelist')
     print(folder + "/edgelist/")
-    return
+    return G
 
 def load_wiki(folder):
     mat_file = folder + "/POS.mat"
     data = sio.loadmat(mat_file)
     
     G = nx.Graph(data['network'])
-    print(nx.info(G))
     nx.write_edgelist(G, path=folder + "/edgelist/POS.edgelist", delimiter=" ", data=['weight'])
 
     print(folder + "/edgelist/")
-    return
+    return G
 
 def load_reddit(folder):
     G = json_graph.node_link_graph(json.load(open("{0}/graphsage/{1}-G.json".format(folder, "reddit"))))
-    print(nx.info(G))
     nx.write_edgelist(G, path=folder + "/edgelist/reddit.edgelist", delimiter=" ", data=['weight'])
     print(folder + "/edgelist/")
-    return
+    return G
 
 def load_ppi(folder):
     G = json_graph.node_link_graph(json.load(open("{0}/graphsage/{1}-G.json".format(folder, "ppi"))))
-    print(nx.info(G))
     nx.write_edgelist(G, path=folder + "/edgelist/ppi.edgelist", delimiter=" ", data=['weight'])
     print(folder + "/edgelist/")
-    return
+    return G
 
 def load_blog(folder):
     G = nx.read_edgelist(folder + "/edges.csv", delimiter=",")
-    print(nx.info(G))
-    print("Diameter: " + str(nx.diameter(G)))
     nx.write_edgelist(G, path=folder + "/edgelist/blog.edgelist", delimiter=" ", data=['weight'])
     print(folder + "/edgelist/")
-    return
+    return G
 
 def main(args):
     if args.wiki:
-        load_wiki(args.wiki)
+        G = load_wiki(args.wiki)
     if args.cora:
-        load_cora(args.cora)
+        G = load_cora(args.cora)
     if args.reddit:
-        load_reddit(args.reddit)
+        G = load_reddit(args.reddit)
     if args.ppi:
-        load_ppi(args.ppi)
+        G = load_ppi(args.ppi)
     if args.blog:
-        load_blog(args.blog)
+        G = load_blog(args.blog)
+
+    print(nx.info(G))
+
+    if args.stat:
+        # print("Diameter: " + str(nx.diameter(G)))
+        print("Avg. clustering coefficient: " + str(nx.average_clustering(G)))
+        print("# Triangles: " + str(sum(nx.triangles(G).values()) / 3))
     return
 
 def parse_args():
@@ -88,6 +90,7 @@ def parse_args():
     parser.add_argument('--reddit', nargs='?', default='', help='Reddit data path')
     parser.add_argument('--ppi', nargs='?', default='', help='PPI data path')
     parser.add_argument('--blog', nargs='?', default='', help='BlogCatalog data path')
+    parser.add_argument('--stat', action='store_true', default=False, help='Some statistics')
     return parser.parse_args()
 
 def test1():

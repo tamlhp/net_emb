@@ -64,9 +64,8 @@ def load_cora(folder):
     with open(folder + '/graphsage/ncora-class_map.json', 'w') as outfile:
         json.dump(class_map, outfile)
     
-    print(nx.info(G))
     print(folder + "/graphsage/")
-    return
+    return G
 
 def load_wiki(folder):
     mat_file = folder + "/POS.mat"
@@ -106,9 +105,8 @@ def load_wiki(folder):
     with open(folder + '/graphsage/POS-class_map.json', 'w') as outfile:
         json.dump(class_map, outfile)
     
-    print(nx.info(G))
     print(folder + "/graphsage/")
-    return
+    return G
 
 def load_astroph(folder):
     G = nx.read_edgelist(folder + "/edgelist/ca-astroph.edgelist")
@@ -144,9 +142,8 @@ def load_astroph(folder):
     with open(folder + '/graphsage/ca-astroph-id_map.json', 'w') as outfile:
         json.dump(id_map, outfile)
     
-    print(nx.info(G))
     print(folder + "/graphsage/")
-    return
+    return G
 
 def load_blog(folder):
     G = nx.read_edgelist(folder + "/edgelist/blog.edgelist")
@@ -182,9 +179,8 @@ def load_blog(folder):
     with open(folder + '/graphsage/blog-id_map.json', 'w') as outfile:
         json.dump(id_map, outfile)
     
-    print(nx.info(G))
     print(folder + "/graphsage/")
-    return
+    return G
 
 def load_facebook(folder):
     G = nx.read_edgelist(folder + "/edgelist/facebook.edgelist")
@@ -220,21 +216,26 @@ def load_facebook(folder):
     with open(folder + '/graphsage/facebook-id_map.json', 'w') as outfile:
         json.dump(id_map, outfile)
     
-    print(nx.info(G))
     print(folder + "/graphsage/")
-    return
+    return G
 
 def main(args):
     if args.wiki:
-        load_wiki(args.wiki)
+        G = load_wiki(args.wiki)
     if args.cora:
-        load_cora(args.cora)
+        G = load_cora(args.cora)
     if args.astroph:
-        load_astroph(args.astroph)
+        G = load_astroph(args.astroph)
     if args.blog:
-        load_blog(args.blog)
+        G = load_blog(args.blog)
     if args.facebook:
-        load_facebook(args.facebook)
+        G = load_facebook(args.facebook)
+
+    print(nx.info(G))
+    if args.stat:
+        # print("Diameter: " + str(nx.diameter(G)))
+        print("Avg. clustering coefficient: " + str(nx.average_clustering(G)))
+        print("# Triangles: " + str(sum(nx.triangles(G).values()) / 3))
     return
 
 def parse_args():
@@ -244,6 +245,7 @@ def parse_args():
     parser.add_argument('--astroph', nargs='?', default='', help='Astroph data path')
     parser.add_argument('--blog', nargs='?', default='', help='BlogCatalog data path')
     parser.add_argument('--facebook', nargs='?', default='', help='Facebook data path')
+    parser.add_argument('--stat', action='store_true', default=False, help='Some statistics')
     return parser.parse_args()
 
 def test1():
