@@ -8,4 +8,5 @@ source activate tensorflow
 
 source activate base
 
-python data/convert_to_graphsage_format.py --facebook ${DATASPACE}/facebook
+# python data/convert_to_graphsage_format.py --facebook ${DATASPACE}/facebook
+python data/convert_to_graphsage_format.py --wiki ${DATASPACE}/wikipedia
