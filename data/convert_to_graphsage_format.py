@@ -219,6 +219,43 @@ def load_facebook(folder):
     print(folder + "/graphsage/")
     return G
 
+def load_ppi(folder):
+    G = nx.read_edgelist(folder + "/edgelist/ppi.edgelist")
+
+    num_nodes = len(G.nodes())
+    np.random.seed(1)
+    random.seed(1)
+    rand_indices = np.random.permutation(num_nodes)
+    train = rand_indices[:int(num_nodes * 0.64)]
+    val = rand_indices[int(num_nodes * 0.64):int(num_nodes * 0.8)]
+    test = rand_indices[int(num_nodes * 0.8):]
+
+    id_map = {}
+    for i, node in enumerate(G.nodes):
+        id_map[str(node)] = i
+
+    res = json_graph.node_link_data(G)
+    res['nodes'] = [
+        {
+            'id': node['id'],
+            'val': id_map[str(node['id'])] in val,
+            'test': id_map[str(node['id'])] in test
+        }
+        for node in res['nodes']]
+    res['links'] = [
+        {
+            'source': id_map[link['source']],
+            'target': id_map[link['target']]
+        }
+        for link in res['links']]
+    with open(folder + '/graphsage/ppi-G.json', 'w') as outfile:
+        json.dump(res, outfile)
+    with open(folder + '/graphsage/ppi-id_map.json', 'w') as outfile:
+        json.dump(id_map, outfile)
+    
+    print(folder + "/graphsage/")
+    return G
+
 def main(args):
     if args.wiki:
         G = load_wiki(args.wiki)
@@ -230,6 +267,8 @@ def main(args):
         G = load_blog(args.blog)
     if args.facebook:
         G = load_facebook(args.facebook)
+    if args.ppi:
+        G = load_ppi(args.ppi)
 
     print(nx.info(G))
     if args.stat:
@@ -245,6 +284,7 @@ def parse_args():
     parser.add_argument('--astroph', nargs='?', default='', help='Astroph data path')
     parser.add_argument('--blog', nargs='?', default='', help='BlogCatalog data path')
     parser.add_argument('--facebook', nargs='?', default='', help='Facebook data path')
+    parser.add_argument('--ppi', nargs='?', default='', help='PPI data path')
     parser.add_argument('--stat', action='store_true', default=False, help='Some statistics')
     return parser.parse_args()
 
