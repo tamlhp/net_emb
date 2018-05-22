@@ -78,9 +78,9 @@ def main(args):
     print(nx.info(G))
 
     if args.stat:
-        # print("Diameter: " + str(nx.diameter(G)))
-        print("Avg. clustering coefficient: " + str(nx.average_clustering(G)))
-        print("# Triangles: " + str(sum(nx.triangles(G).values()) / 3))
+        print("Diameter: " + str(nx.diameter(G)))
+        # print("Avg. clustering coefficient: " + str(nx.average_clustering(G)))
+        # print("# Triangles: " + str(sum(nx.triangles(G).values()) / 3))
     return
 
 def parse_args():
