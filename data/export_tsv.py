@@ -24,9 +24,8 @@ def main(args):
         
     elif args.algorithm == 'graphsage':
         embeds = np.load(args.dataset + "/unsup-karate/graphsage_mean_small_0.000010/val.npy")
-        print(embeds.shape)
         for embed in embeds:
-            writer.write(np.array2string(embed, separator="\t"))
+            writer.write("\t".join(map(str, embed)))
             writer.write("\n")
     else:
         assert False
