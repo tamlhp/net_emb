@@ -12,6 +12,8 @@ import networkx as nx
 from networkx.readwrite import json_graph
 from argparse import ArgumentParser
 from sklearn.linear_model import *
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.neural_network import MLPClassifier
 from sklearn.metrics import *
 from sklearn.multioutput import MultiOutputClassifier
 from sklearn.preprocessing import *
@@ -26,7 +28,9 @@ def run_regression(train_embeds, train_labels, test_embeds, test_labels, args):
     if args.label == 'single':
         log = args.classifier
     elif args.label == 'multi':
-        log = MultiOutputClassifier(args.classifier, n_jobs=-1)
+        # log = MultiOutputClassifier(args.classifier, n_jobs=-1)
+        log = RandomForestClassifier(n_jobs = -1, random_state=seed)
+        # log = MLPClassifier(random_state=seed)
     else:
         assert False
 
