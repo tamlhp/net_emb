@@ -383,7 +383,7 @@ def main(args):
             node_emb = node2vec[node_index]
             embeds[id_map[node_index]] = node_emb
     elif args.algorithm == 'graphsage':
-        G = json_graph.node_link_graph(json.load(open("{0}/{1}-G.json".format(args.dataset_dir, args.prefix))))
+        G = json_graph.node_link_graph(json.load(open("{0}/graphsage/{1}-G.json".format(args.dataset_dir, args.prefix))))
         embeds = np.load(args.embed_dir + "/val.npy")
         id_map = {}
         with open(args.embed_dir + "/val.txt") as fp:
