@@ -111,7 +111,7 @@ def parse_args():
     parser.add_argument("--embed_dir", default="/Users/tnguyen/dataspace/graph/wikipedia/unsup-graphsage/graphsage_mean_small_0.000010", help="Path to directory containing the learned node embeddings. Set to 'feat' for raw features.")
     parser.add_argument("--prefix", default="POS", help="Prefix to access the dataset")
     parser.add_argument("--setting", choices=['val', 'test'], default="test", help="Either val or test.")
-    parser.add_argument("--label", choices=['multi', 'single'], default="multiclass", help="Either single-label or multi-label classification.")
+    parser.add_argument("--label", choices=['multi', 'single'], default="single", help="Either single-label or multi-label classification.")
     parser.add_argument("--loss", choices=['log', 'hinge'], default="log", help="Loss function")
     parser.add_argument("--classifier", choices=['sgd', 'logistic'], default="sgd", help="Base classifier")
     parser.add_argument("--average", choices=['micro', 'macro', 'weighted', 'none'], default="micro", help="Average strategy for multi-class classification")
