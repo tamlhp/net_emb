@@ -44,7 +44,9 @@ IFS=$'\r\n' GLOBIGNORE='*' command eval  'PREFIX=($(cat ${DATASPACE}/erdos/prefi
 for i in "${PREFIX[@]}"
 do
     python -m graphsage.utils ${DATASPACE}/erdos/graphsage/${i}-G.json ${DATASPACE}/erdos/graphsage/${i}-walks.txt
-    mkdir ${DATASPACE}/erdos/emb-graphsage/${i}
+    if [ ! -d "${DATASPACE}/erdos/emb-graphsage/${i}" ]; then
+        mkdir ${DATASPACE}/erdos/emb-graphsage/${i}
+    fi
     python -m graphsage.unsupervised_train --train_prefix ${DATASPACE}/erdos/graphsage/${i} --model graphsage_mean --max_total_steps 1000 --validate_iter 10 \
         --identity_dim 128 --base_log_dir ${DATASPACE}/erdos/emb-graphsage/${i}
     # python -m graphsage.unsupervised_train --train_prefix ${DATASPACE}/erdos/graphsage/${i} --model graphsage_mean --model_size small \
