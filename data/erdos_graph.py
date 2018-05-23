@@ -6,6 +6,7 @@ import argparse
 import math
 import json
 from networkx.readwrite import json_graph
+import pdb
 
 seed = 123
 random.seed(seed)
@@ -56,6 +57,6 @@ def main(args):
         print("# Triangles: " + str(sum(nx.triangles(G).values()) / 3))
     return
 
-if __name__ == "main":
+if __name__ == "__main__":
     args = parse_args()
     main(args)
