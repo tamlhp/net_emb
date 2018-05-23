@@ -407,7 +407,7 @@ def main(args):
     }
 
     classifier = {
-        "sgd" : SGDClassifier(loss=args.loss, n_jobs=-1, random_state=seed),
+        "sgd" : SGDClassifier(loss=args.loss, n_jobs=-1, random_state=seed, max_iter=1000, tol=1e-3),
         "logistic" : LogisticRegression(random_state=seed, n_jobs=-1),
     }
     args.classifier = classifier[args.classifier]
