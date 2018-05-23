@@ -38,7 +38,7 @@ def change_node_id(emb_file, id_file, out_file):
                 writer.write(" ".join(data))
                 writer.write("\n")
             count += 1
-    write.close()
+    writer.close()
     return
 
 def main(args):

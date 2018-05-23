@@ -10,6 +10,7 @@ from scipy.sparse import coo_matrix
 import argparse
 import math
 import sys
+import csv
 import pdb
 
 seed = 123
@@ -172,10 +173,18 @@ def load_blog(folder):
             'target': id_map[link['target']]
         }
         for link in res['links']]
+
+    class_map = {}
+    reader = csv.reader(open(folder + "/group-edges.csv"), delimiter=",")
+    for row in reader:
+        class_map[row[0]] = int(row[1])
+
     with open(folder + '/graphsage/blog-G.json', 'w') as outfile:
         json.dump(res, outfile)
     with open(folder + '/graphsage/blog-id_map.json', 'w') as outfile:
         json.dump(id_map, outfile)
+    with open(folder + '/graphsage/blog-class_map.json', 'w') as outfile:
+        json.dump(class_map, outfile)
     
     print(folder + "/graphsage/")
     return G
