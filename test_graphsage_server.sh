@@ -47,11 +47,11 @@ do
     if [ ! -d "${DATASPACE}/erdos/emb-graphsage/${i}" ]; then
         mkdir ${DATASPACE}/erdos/emb-graphsage/${i}
     fi
-    python -m graphsage.unsupervised_train --train_prefix ${DATASPACE}/erdos/graphsage/${i} --model graphsage_mean --max_total_steps 1000 --validate_iter 10 \
-        --identity_dim 128 --base_log_dir ${DATASPACE}/erdos/emb-graphsage/${i}
-    # python -m graphsage.unsupervised_train --train_prefix ${DATASPACE}/erdos/graphsage/${i} --model graphsage_mean --model_size small \
-    #     --epochs 10 --dropout 0.01 --weight_decay 0.01 --max_total_steps 100000 --validate_iter 1000 \
+    # python -m graphsage.unsupervised_train --train_prefix ${DATASPACE}/erdos/graphsage/${i} --model graphsage_mean --max_total_steps 1000 --validate_iter 10 \
     #     --identity_dim 128 --base_log_dir ${DATASPACE}/erdos/emb-graphsage/${i}
+    python -m graphsage.unsupervised_train --train_prefix ${DATASPACE}/erdos/graphsage/${i} --model gcn --model_size big \
+        --epochs 10 --dropout 0.01 --weight_decay 0.01 --max_total_steps 100000 --validate_iter 1000 \
+        --identity_dim 128 --base_log_dir ${DATASPACE}/erdos/emb-graphsage/${i}
 done
 
 cd ../
