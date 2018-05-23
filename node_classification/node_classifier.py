@@ -14,6 +14,7 @@ from argparse import ArgumentParser
 from sklearn.linear_model import *
 from sklearn.metrics import *
 from sklearn.multioutput import MultiOutputClassifier
+from sklearn.preprocessing import *
 
 seed = 123
 np.random.seed(seed)
@@ -28,33 +29,35 @@ def run_regression(train_embeds, train_labels, test_embeds, test_labels, args):
         log = MultiOutputClassifier(args.classifier, n_jobs=-1)
     else:
         assert False
+
     log.fit(train_embeds, train_labels)
     test_pred = log.predict(test_embeds)
     train_pred = log.predict(train_embeds)
     test_score = log.predict_proba(test_embeds)
-    train_score = log.predict_proba(train_embeds)
-
-    pdb.set_trace()
+    train_score = log.predict_proba(train_embeds) 
 
     n2v_scores = {}
     n2v_scores['runtime'] = time.time() - start_time
 
     if args.label == 'single':
         print("Single-label")
+        lb = LabelBinarizer()
+        test_labels_2d = lb.fit(test_labels)
+        train_labels_2d = lb.fit(train_labels)
 
         n2v_scores['test_f1'] = f1_score(test_labels, test_pred, average=args.average)
         n2v_scores['test_precision'] = precision_score(test_labels, test_pred, average=args.average)
         n2v_scores['test_recall'] = recall_score(test_labels, test_pred, average=args.average)
         n2v_scores['test_accuracy'] = accuracy_score(test_labels, test_pred)
-        n2v_scores['test_auc'] = roc_auc_score(test_labels, test_score, average=args.average)
-        n2v_scores['test_ap'] = average_precision_score(test_labels, test_score, average=args.average)
+        n2v_scores['test_auc'] = roc_auc_score(test_labels_2d, test_score, average=args.average)
+        n2v_scores['test_ap'] = average_precision_score(test_labels_2d, test_score, average=args.average)
 
         n2v_scores['train_f1'] = f1_score(train_labels, train_pred, average=args.average)
         n2v_scores['train_precision'] = precision_score(train_labels, train_pred, average=args.average)
         n2v_scores['train_recall'] = recall_score(train_labels, train_pred, average=args.average)
         n2v_scores['train_accuracy'] = accuracy_score(train_labels, train_pred)
-        n2v_scores['train_auc'] = roc_auc_score(train_labels, train_score, average=args.average)
-        n2v_scores['train_ap'] = average_precision_score(train_labels, train_score, average=args.average)
+        n2v_scores['train_auc'] = roc_auc_score(train_labels_2d, train_score, average=args.average)
+        n2v_scores['train_ap'] = average_precision_score(train_labels_2d, train_score, average=args.average)
     elif args.label == 'multilabel':
         print("Multi-label", test_labels.shape[1])
         assert test_labels.shape[1] == train_labels.shape[1]
