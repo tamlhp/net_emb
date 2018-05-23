@@ -26,7 +26,7 @@ def run_regression(train_embeds, train_labels, test_embeds, test_labels, args):
     if args.label == 'single':
         log = args.classifier
     elif args.label == 'multi':
-        log = MultiOutputClassifier(args.classifier, n_jobs=1)
+        log = MultiOutputClassifier(args.classifier, n_jobs=-1)
     else:
         assert False
 
@@ -127,7 +127,7 @@ def parse_args():
 
 def main(args):
     classifier = {
-        "sgd" : SGDClassifier(loss=args.loss, n_jobs=1, random_state=seed, max_iter=1000, tol=1e-3),
+        "sgd" : SGDClassifier(loss=args.loss, n_jobs=-1, random_state=seed, max_iter=1000, tol=1e-3),
         "logistic" : LogisticRegression(random_state=seed, n_jobs=1),
     }
     args.classifier = classifier[args.classifier]
