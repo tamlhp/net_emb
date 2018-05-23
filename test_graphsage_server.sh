@@ -18,19 +18,21 @@ cd graphsage/
 #     --epochs 10 --dropout 0.01 --weight_decay 0.01 --max_total_steps 100000 --validate_iter 1000 \
 #      --identity_dim 128 --base_log_dir ${DATASPACE}/blogcatalog/
 
-python -m graphsage.utils ${DATASPACE}/ca-astroph/graphsage/ca-astroph-G.json ${DATASPACE}/ca-astroph/graphsage/ca-astroph-walks.txt
-python -m graphsage.unsupervised_train --train_prefix ${DATASPACE}/ca-astroph/graphsage/ca-astroph --model gcn --model_size big \
+# python -m graphsage.utils ${DATASPACE}/ca-astroph/graphsage/ca-astroph-G.json ${DATASPACE}/ca-astroph/graphsage/ca-astroph-walks.txt
+# python -m graphsage.unsupervised_train --train_prefix ${DATASPACE}/ca-astroph/graphsage/ca-astroph --model gcn --model_size big \
+#     --epochs 10 --dropout 0.01 --weight_decay 0.01 --max_total_steps 100000 --validate_iter 1000 \
+#      --identity_dim 128 --base_log_dir ${DATASPACE}/ca-astroph/
+
+python -m graphsage.utils ${DATASPACE}/ppi/graphsage/ppi-G.json ${DATASPACE}/ppi/graphsage/ppi-walks.txt
+python -m graphsage.unsupervised_train --train_prefix ${DATASPACE}/ppi/graphsage/ppi --model gcn --model_size big \
     --epochs 10 --dropout 0.01 --weight_decay 0.01 --max_total_steps 100000 --validate_iter 1000 \
-     --identity_dim 128 --base_log_dir ${DATASPACE}/ca-astroph/
+     --identity_dim 128 --base_log_dir ${DATASPACE}/ppi/
 
 # python -m graphsage.unsupervised_train --train_prefix ${DATASPACE}/karate/graphsage/karate --model graphsage_mean --max_total_steps 1000 --validate_iter 10 \
 #      --identity_dim 128 --base_log_dir ${DATASPACE}/karate/
 
 # python -m graphsage.unsupervised_train --train_prefix ${DATASPACE}/reddit/graphsage/reddit --model graphsage_mean --max_total_steps 1000 --validate_iter 10 \
 #      --identity_dim 128 --base_log_dir ${DATASPACE}/reddit/
-
-# python -m graphsage.unsupervised_train --train_prefix ${DATASPACE}/ppi/graphsage/ppi --model graphsage_mean --max_total_steps 1000 --validate_iter 10 \
-#      --identity_dim 128 --base_log_dir ${DATASPACE}/ppi/
 
 # python -m graphsage.unsupervised_train --train_prefix ${DATASPACE}/karate/graphsage/karate --model graphsage_mean --max_total_steps 1000 --validate_iter 10 \
 #      --identity_dim 128 --base_log_dir ${DATASPACE}/karate/

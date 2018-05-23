@@ -21,7 +21,7 @@ def run_regression(train_embeds, train_labels, test_embeds, test_labels, args):
 
     from sklearn.linear_model import SGDClassifier
     from sklearn.dummy import DummyClassifier
-    from sklearn.metrics import f1_score, average_precision_score
+    from sklearn.metrics import *
     from sklearn.multioutput import MultiOutputClassifier
 
     # dummy = DummyClassifier()
@@ -41,6 +41,8 @@ def run_regression(train_embeds, train_labels, test_embeds, test_labels, args):
         print("Single-label")
         n2v_scores['test_f1'] = f1_score(test_labels, log.predict(test_embeds), average=args.average)
         n2v_scores['train_f1'] = f1_score(train_labels, log.predict(train_embeds), average=args.average)
+        n2v_scores['test_precision'] = precision_score(test_labels, log.predict(test_embeds), average=args.average)
+        n2v_scores['test_recall'] = precision_score(test_labels, log.predict(test_embeds), average=args.average)
 
         # print("Random baseline")
         # print(f1_score(test_labels, dummy.predict(test_embeds), average=average))
