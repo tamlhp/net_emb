@@ -23,6 +23,8 @@ def main(args):
     n = args.n
     for p in [n**(-3), n**(-2), n**(-5/4), n**(-3/2), n**(-7/5), n**(-4/3), n**(-1), n**(-1/2), math.log(n)/n]:
         G = nx.erdos_renyi_graph(n, p, seed=seed, directed=False)
+        print(nx.info(G))
+
         prefix = "erdos,n={0},p={1}".format(n,p)
         edgelist = "{0}/edgelist/{1}.edgelist".format(args.path, prefix)
         nx.write_edgelist(G, path=edgelist, delimiter=" ", data=False)
@@ -45,13 +47,17 @@ def main(args):
                 'target': id_map[link['target']]
             }
             for link in res['links']]
+
         with open('{0}/graphsage/{1}-G.json'.format(args.path, prefix), 'w') as outfile:
             json.dump(res, outfile)
         with open('{0}/graphsage/{1}-id_map.json'.format(args.path, prefix), 'w') as outfile:
             json.dump(id_map, outfile)
-        print(nx.info(G))
+        
         if args.stat:
-            print("Diameter: " + str(nx.diameter(G)))
+            try:
+                print("Diameter: " + str(nx.diameter(G)))
+            except:
+                print("Diameter: N/A (Graph is disconnected)")
             print("Avg. clustering coefficient: " + str(nx.average_clustering(G)))
             print("# Triangles: " + str(sum(nx.triangles(G).values()) / 3))
     return
