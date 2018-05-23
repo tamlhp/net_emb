@@ -317,7 +317,7 @@ def edge_classify(emb_list, train_test_split, args):
         test_edge_labels = np.concatenate([np.ones(len(test_edges)), np.zeros(len(test_edges_false))])
 
         # Train logistic regression classifier on train-set edge embeddings
-        edge_classifier = LogisticRegression(random_state=0)
+        edge_classifier = args.classifier
         edge_classifier.fit(train_edge_embs, train_edge_labels)
 
         # Predicted edge scores: probability of being of class "1" (real edge)
@@ -363,6 +363,7 @@ def edge_classify(emb_list, train_test_split, args):
 
     # Record scores
     n2v_scores = {}
+    n2v_scores['runtime'] = runtime
 
     n2v_scores['test_roc'] = n2v_test_roc
     # n2v_scores['test_roc_curve'] = n2v_test_roc_curve
@@ -371,9 +372,6 @@ def edge_classify(emb_list, train_test_split, args):
     n2v_scores['val_roc'] = n2v_val_roc
     # n2v_scores['val_roc_curve'] = n2v_val_roc_curve
     n2v_scores['val_ap'] = n2v_val_ap
-
-    n2v_scores['runtime'] = runtime
-
     return n2v_scores
 
 def main(args):
@@ -408,6 +406,12 @@ def main(args):
         "l2" : edge2vec.l2,
     }
 
+    classifier = {
+        "sgd" : SGDClassifier(loss=args.loss, n_jobs=-1, random_state=seed),
+        "logistic" : LogisticRegression(random_state=seed, n_jobs=-1),
+    }
+    args.classifier = classifier[args.classifier]
+
     args.func = funcs.get(args.func, edge2vec.hadamard)
     scores = edge_classify(embeds,train_test_split, args)
     print(scores)
@@ -425,6 +429,8 @@ def parse_args():
     parser.add_argument('--func', choices=['avg', 'hadamard','l1', 'l2'], default="hadamard", help='Binary operator')
     parser.add_argument('--algorithm', choices=['node2vec', 'graphsage'], default="graphsage", help='Network embedding algorithm')
     parser.add_argument('--edge_score_mode', choices=['edge-emb', 'dot-product'], default="edge-emb", help='Edge embedding choice')
+    parser.add_argument("--loss", choices=['log', 'hinge'], default="log", help="Loss function")
+    parser.add_argument("--classifier", choices=['sgd', 'logistic'], default="logistic", help="Base classifier")
     return parser.parse_args()
 
 if __name__ == '__main__':
