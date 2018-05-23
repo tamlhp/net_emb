@@ -34,6 +34,8 @@ def run_regression(train_embeds, train_labels, test_embeds, test_labels, args):
     test_score = log.predict_proba(test_embeds)
     train_score = log.predict_proba(train_embeds)
 
+    pdb.set_trace()
+
     n2v_scores = {}
     n2v_scores['runtime'] = time.time() - start_time
 
