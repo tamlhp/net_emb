@@ -14,4 +14,4 @@ source activate base
 # python data/convert_to_graphsage_format.py --astroph ${DATASPACE}/ca-astroph
 # python data/convert_to_graphsage_format.py --ppi ${DATASPACE}/ppi
 
-python data/erdos_graph.py --path ${DATASPACE}/erdos --stat
+python data/erdos_graph.py --path ${DATASPACE}/erdos
