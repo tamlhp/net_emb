@@ -21,7 +21,7 @@ def parse_args():
 
 def main(args):
     n = args.n
-    for p in [n**(-3), n**(-2), n**(-5/4), n**(-3/2), n**(-7/5), n**(-4/3), n**(-1), n**(-1/2), math.log(n)/n]:
+    for p in [n**(-5/4), n**(-3/2), n**(-7/5), n**(-4/3), n**(-1), n**(-1/2), math.log(n)/n]:
         G = nx.erdos_renyi_graph(n, p, seed=seed, directed=False)
         print(nx.info(G))
 
