@@ -250,7 +250,7 @@ def mask_test_edges(adj, args, test_frac=.1, val_frac=.05):
     assert len(train_edges) > 0 and len(test_edges) > 0 and len(val_edges) > 0
 
     if args.cache:
-        os.mkdir(args.cache)
+        if not os.path.isdir(args.cache): os.mkdir(args.cache)
         pickle.dump(adj_train, open(args.cache + "/adj_train.pkl", "wb" ) )
         pickle.dump(train_edges, open(args.cache + "/train_edges.pkl", "wb" ) )
         pickle.dump(train_edges_false, open(args.cache + "/train_edges_false.pkl", "wb" ) )
