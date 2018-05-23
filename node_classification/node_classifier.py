@@ -60,7 +60,7 @@ def run_regression(train_embeds, train_labels, test_embeds, test_labels, args):
         n2v_scores['test_ap'] = average_precision_score(test_labels_2d, test_score, average=args.average)
         n2v_scores['train_auc'] = roc_auc_score(train_labels_2d, train_score, average=args.average)
         n2v_scores['train_ap'] = average_precision_score(train_labels_2d, train_score, average=args.average)
-    elif args.label == 'multilabel':
+    elif args.label == 'multi':
         print("Multi-label", test_labels.shape[1])
         assert test_labels.shape[1] == train_labels.shape[1]
 
