@@ -11,3 +11,6 @@ python data/export_tsv.py --algorithm graphsage --prefix blog --emb ${DATASPACE}
 
 python data/export_tsv.py --algorithm node2vec --prefix ca-astroph --emb ${DATASPACE}/ca-astroph/emb/ --tsv ${DATASPACE}/ca-astroph/tsv
 python data/export_tsv.py --algorithm graphsage --prefix ca-astroph --emb ${DATASPACE}/ca-astroph/unsup-graphsage/gcn_big_0.000010/ --tsv ${DATASPACE}/ca-astroph/tsv
+
+python data/export_tsv.py --algorithm node2vec --prefix ppi --emb ${DATASPACE}/ppi/emb/ --tsv ${DATASPACE}/ppi/tsv
+python data/export_tsv.py --algorithm graphsage --prefix ppi --emb ${DATASPACE}/ppi/unsup-graphsage/gcn_big_0.000010/ --tsv ${DATASPACE}/ppi/tsv

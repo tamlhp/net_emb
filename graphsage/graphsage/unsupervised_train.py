@@ -55,7 +55,7 @@ flags.DEFINE_string('base_log_dir', '.', 'base directory for logging and saving 
 flags.DEFINE_integer('validate_iter', 5000, "how often to run a validation minibatch.")
 flags.DEFINE_integer('validate_batch_size', 256, "how many nodes per validation sample.")
 flags.DEFINE_integer('gpu', 1, "which gpu to use.")
-flags.DEFINE_integer('print_every', 50, "How often to print training info.")
+flags.DEFINE_integer('print_every', 1000, "How often to print training info.")
 flags.DEFINE_integer('max_total_steps', 10**10, "Maximum total number of iterations")
 
 os.environ["CUDA_VISIBLE_DEVICES"]=str(FLAGS.gpu)
