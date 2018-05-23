@@ -10,6 +10,9 @@ source activate tensorflow
 #     --embed_dir ${DATASPACE}/wikipedia/unsup-graphsage/gcn_big_0.000010 \
 #     --prefix POS --setting test
 
+# python node_classification/node_classifier.py --dataset_dir ${DATASPACE}/wikipedia/graphsage/ \
+#     --embed_dir feat --prefix POS --setting test
+
 # python node_classification/node_classifier.py --algorithm node2vec --dataset_dir ${DATASPACE}/blogcatalog/graphsage/ \
 #     --embed_dir ${DATASPACE}/blogcatalog/emb/ \
 #     --prefix blog --setting test
@@ -18,13 +21,19 @@ source activate tensorflow
 #     --embed_dir ${DATASPACE}/blogcatalog/unsup-graphsage/gcn_big_0.000010 \
 #     --prefix blog --setting test
 
-# python node_classification/node_classifier.py --algorithm node2vec --dataset_dir ${DATASPACE}/ppi/graphsage/ \
-#     --embed_dir ${DATASPACE}/ppi/emb/ \
-#     --prefix ppi --setting test --label multi --classifier logistic
+# python node_classification/node_classifier.py --dataset_dir ${DATASPACE}/blogcatalog/graphsage/ \
+#     --embed_dir feat --prefix blog --setting test
 
-python node_classification/node_classifier.py --algorithm graphsage --dataset_dir ${DATASPACE}/ppi/graphsage/ \
-    --embed_dir ${DATASPACE}/ppi/unsup-graphsage/gcn_big_0.000010 \
-    --prefix ppi --setting test --label multi --classifier logistic
+python node_classification/node_classifier.py --algorithm node2vec --dataset_dir ${DATASPACE}/ppi/graphsage/ \
+    --embed_dir ${DATASPACE}/ppi/emb/ \
+    --prefix ppi --setting test --label multi --classifier sgd
+
+# python node_classification/node_classifier.py --algorithm graphsage --dataset_dir ${DATASPACE}/ppi/graphsage/ \
+#     --embed_dir ${DATASPACE}/ppi/unsup-graphsage/gcn_big_0.000010 \
+#     --prefix ppi --setting test --label multi --classifier sgd
+
+# python node_classification/node_classifier.py --dataset_dir ${DATASPACE}/ppi/graphsage/ \
+#     --embed_dir feat --prefix ppi --setting test --label multi --classifier sgd
 
 # python node_classification/node_classifier.py --dataset_dir ${DATASPACE}/ppi/graphsage/ --embed_dir feat \
     # --prefix ppi --setting test

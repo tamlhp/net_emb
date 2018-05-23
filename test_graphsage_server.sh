@@ -29,7 +29,7 @@ cd graphsage/
 #      --identity_dim 128 --base_log_dir ${DATASPACE}/ppi/
 
 python -m graphsage.utils ${DATASPACE}/reddit/graphsage/reddit-G.json ${DATASPACE}/reddit/graphsage/reddit-walks.txt
-python -m graphsage.unsupervised_train --train_prefix ${DATASPACE}/reddit/graphsage/reddit --model gcn --model_size big \
+python -m graphsage.unsupervised_train --train_prefix ${DATASPACE}/reddit/graphsage/reddit --model graphsage_mean --model_size small \
     --epochs 10 --dropout 0.01 --weight_decay 0.01 --max_total_steps 100000 --validate_iter 1000 \
      --identity_dim 128 --base_log_dir ${DATASPACE}/reddit/
 
