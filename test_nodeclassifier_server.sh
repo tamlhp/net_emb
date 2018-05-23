@@ -20,11 +20,11 @@ source activate tensorflow
 
 python node_classification/node_classifier.py --algorithm node2vec --dataset_dir ${DATASPACE}/ppi/graphsage/ \
     --embed_dir ${DATASPACE}/ppi/emb/ \
-    --prefix ppi --setting test --label multi --classifier log
+    --prefix ppi --setting test --label multi --classifier logistic
 
 # python node_classification/node_classifier.py --algorithm graphsage --dataset_dir ${DATASPACE}/ppi/graphsage/ \
 #     --embed_dir ${DATASPACE}/ppi/unsup-graphsage/gcn_big_0.000010 \
-#     --prefix ppi --setting test --label multi --classifier log
+#     --prefix ppi --setting test --label multi --classifier logistic
 
 # python node_classification/node_classifier.py --dataset_dir ${DATASPACE}/ppi/graphsage/ --embed_dir feat \
     # --prefix ppi --setting test
