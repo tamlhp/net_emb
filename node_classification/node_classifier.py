@@ -62,9 +62,10 @@ def run_regression(train_embeds, train_labels, test_embeds, test_labels, args):
     else:
         assert False
 
-    print("Test F1-score", n2v_scores['test_f1'])
-    print("Train F1-score", n2v_scores['train_f1'])
-    print("Runtime (s)", n2v_scores['runtime'])
+    print(n2v_scores)
+    # print("Test F1-score", n2v_scores['test_f1'])
+    # print("Train F1-score", n2v_scores['train_f1'])
+    # print("Runtime (s)", n2v_scores['runtime'])
     return n2v_scores
 
 def parse_args():

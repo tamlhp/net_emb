@@ -11,4 +11,5 @@ source activate base
 # python data/convert_to_graphsage_format.py --facebook ${DATASPACE}/facebook
 # python data/convert_to_graphsage_format.py --wiki ${DATASPACE}/wikipedia
 # python data/convert_to_graphsage_format.py --blog ${DATASPACE}/blogcatalog
-python data/convert_to_graphsage_format.py --astroph ${DATASPACE}/ca-astroph
+# python data/convert_to_graphsage_format.py --astroph ${DATASPACE}/ca-astroph
+python data/convert_to_graphsage_format.py --ppi ${DATASPACE}/ppi
