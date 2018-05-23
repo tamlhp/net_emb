@@ -28,9 +28,9 @@ def run_regression(train_embeds, train_labels, test_embeds, test_labels, args):
     if args.label == 'single':
         log = args.classifier
     elif args.label == 'multi':
-        log = MultiOutputClassifier(args.classifier, n_jobs=-1)
+        # log = MultiOutputClassifier(args.classifier, n_jobs=-1)
         # log = RandomForestClassifier(n_jobs = -1, random_state=seed)
-        # log = MLPClassifier(random_state=seed)
+        log = MLPClassifier(random_state=seed)
     else:
         assert False
 
