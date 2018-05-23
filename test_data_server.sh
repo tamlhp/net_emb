@@ -6,6 +6,8 @@ source activate tensorflow
 # python data/convert_to_edgelist_format.py --ppi ${DATASPACE}/ppi --stat
 # python data/convert_to_edgelist_format.py --wiki ${DATASPACE}/wikipedia --stat
 
+python data/erdos_graph.py --path ${DATASPACE}/erdos
+
 source activate base
 
 # python data/convert_to_graphsage_format.py --facebook ${DATASPACE}/facebook
