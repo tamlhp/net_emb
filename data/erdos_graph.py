@@ -21,7 +21,7 @@ def parse_args():
 
 def main(args):
     n = args.n
-    writer = open("args.path/prefix.txt", "wt")
+    writer = open(args.path + "/prefix.txt", "wt")
     for p in ['n**(-5/4)', 'n**(-3/2)', 'n**(-7/5)', 'n**(-4/3)', 'n**(-1)', 'n**(-1/2)', 'math.log(n)/n', 'math.log(n)**2/n']:
         prefix = "erdos,n={0},p={1}".format(n,eval(p))
         writer.write(prefix + "\n")
