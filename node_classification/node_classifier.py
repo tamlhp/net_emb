@@ -88,17 +88,16 @@ def run_regression(train_embeds, train_labels, test_embeds, test_labels, args):
         n2v_scores['train_precision'] = np.mean(n2v_scores['train_precision'])
         n2v_scores['train_recall'] = np.mean(n2v_scores['train_recall'])
 
-        pdb.set_trace()
-        n2v_scores['test_lrap'] = label_ranking_average_precision_score(test_labels, test_score)
-        n2v_scores['train_lrap'] = label_ranking_average_precision_score(train_labels, train_score)
-
         n2v_scores['test_accuracy'] = accuracy_score(test_labels, test_pred)
         n2v_scores['train_accuracy'] = accuracy_score(train_labels, train_pred)
 
-        n2v_scores['test_auc'] = roc_auc_score(test_labels, test_score, average=args.average)
-        n2v_scores['test_ap'] = average_precision_score(test_labels, test_score, average=args.average)
-        n2v_scores['train_auc'] = roc_auc_score(train_labels, train_score, average=args.average)
-        n2v_scores['train_ap'] = average_precision_score(train_labels, train_score, average=args.average)
+        # https://github.com/scikit-learn/scikit-learn/issues/2451
+        # n2v_scores['test_lrap'] = label_ranking_average_precision_score(test_labels, test_score)
+        # n2v_scores['train_lrap'] = label_ranking_average_precision_score(train_labels, train_score)
+        # n2v_scores['test_auc'] = roc_auc_score(test_labels, test_score, average=args.average)
+        # n2v_scores['test_ap'] = average_precision_score(test_labels, test_score, average=args.average)
+        # n2v_scores['train_auc'] = roc_auc_score(train_labels, train_score, average=args.average)
+        # n2v_scores['train_ap'] = average_precision_score(train_labels, train_score, average=args.average)s
     else:
         assert False
 

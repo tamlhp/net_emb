@@ -14,7 +14,7 @@ import networkx as nx
 from networkx.readwrite import json_graph
 
 from sklearn.metrics import roc_auc_score, average_precision_score, roc_curve
-from sklearn.linear_model import LogisticRegression
+from sklearn.linear_model import *
 
 seed = 123
 np.random.seed(seed)
