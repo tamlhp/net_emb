@@ -31,6 +31,12 @@ def main(args):
         edgelist = "{0}/edgelist/{1}.edgelist".format(args.path, prefix)
         nx.write_edgelist(G, path=edgelist, delimiter=" ", data=False)
 
+        num_nodes = len(G.nodes())
+        rand_indices = np.random.permutation(num_nodes)
+        train = rand_indices[:int(num_nodes * 0.9025)]
+        val = rand_indices[int(num_nodes * 0.9025):int(num_nodes * 0.95)]
+        test = rand_indices[int(num_nodes * 0.95):]
+
         id_map = {}
         for i, node in enumerate(G.nodes()):
             id_map[str(node)] = i
