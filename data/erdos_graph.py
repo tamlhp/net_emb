@@ -49,12 +49,11 @@ def main(args):
             json.dump(res, outfile)
         with open('{0}/graphsage/{1}-id_map.json'.format(args.path, prefix), 'w') as outfile:
             json.dump(id_map, outfile)
-
-    print(nx.info(G))
-    if args.stat:
-        print("Diameter: " + str(nx.diameter(G)))
-        print("Avg. clustering coefficient: " + str(nx.average_clustering(G)))
-        print("# Triangles: " + str(sum(nx.triangles(G).values()) / 3))
+        print(nx.info(G))
+        if args.stat:
+            print("Diameter: " + str(nx.diameter(G)))
+            print("Avg. clustering coefficient: " + str(nx.average_clustering(G)))
+            print("# Triangles: " + str(sum(nx.triangles(G).values()) / 3))
     return
 
 if __name__ == "__main__":
