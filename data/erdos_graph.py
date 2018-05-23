@@ -21,11 +21,13 @@ def parse_args():
 
 def main(args):
     n = args.n
-    for p in [n**(-5/4), n**(-3/2), n**(-7/5), n**(-4/3), n**(-1), n**(-1/2), math.log(n)/n]:
-        G = nx.erdos_renyi_graph(n, p, seed=seed, directed=False)
-        print(nx.info(G))
+    writer = open("args.path/prefix.txt", "wt")
+    for p in ['n**(-5/4)', 'n**(-3/2)', 'n**(-7/5)', 'n**(-4/3)', 'n**(-1)', 'n**(-1/2)', 'math.log(n)/n', 'math.log(n)**2/n']:
+        prefix = "erdos,n={0},p={1}".format(n,eval(p))
+        writer.write(prefix + "\n")
 
-        prefix = "erdos,n={0},p={1}".format(n,p)
+        G = nx.erdos_renyi_graph(n, eval(p), seed=seed, directed=False)
+        print(nx.info(G))
         edgelist = "{0}/edgelist/{1}.edgelist".format(args.path, prefix)
         nx.write_edgelist(G, path=edgelist, delimiter=" ", data=False)
 
@@ -36,15 +38,15 @@ def main(args):
         res = json_graph.node_link_data(G)
         res['nodes'] = [
             {
-                'id': node['id'],
+                'id': str(node['id']),
                 'val': False,
                 'test': False,
             }
             for node in res['nodes']]
         res['links'] = [
             {
-                'source': id_map[link['source']],
-                'target': id_map[link['target']]
+                'source': id_map[str(link['source'])],
+                'target': id_map[str(link['target'])],
             }
             for link in res['links']]
 
@@ -60,6 +62,8 @@ def main(args):
                 print("Diameter: N/A (Graph is disconnected)")
             print("Avg. clustering coefficient: " + str(nx.average_clustering(G)))
             print("# Triangles: " + str(sum(nx.triangles(G).values()) / 3))
+
+    writer.close()
     return
 
 if __name__ == "__main__":
