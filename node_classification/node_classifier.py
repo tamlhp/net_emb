@@ -164,7 +164,7 @@ def main(args):
         feats[:,0] = np.log(feats[:,0]+1.0)
         feats[:,1] = np.log(feats[:,1]-min(np.min(feats[:,1]), -1))
         feat_id_map = json.load(open("{0}/{1}-id_map.json".format(dataset_dir, prefix)))
-        feat_id_map = {int(id):val for id,val in feat_id_map.iteritems()}
+        # feat_id_map = {int(id):val for id,val in feat_id_map.iteritems()}
         train_feats = feats[[feat_id_map[id] for id in train_ids]] 
         test_feats = feats[[feat_id_map[id] for id in test_ids]] 
 
