@@ -47,7 +47,13 @@ def load_wiki(folder):
 
 def load_reddit(folder):
     G = json_graph.node_link_graph(json.load(open("{0}/graphsage/{1}-G.json".format(folder, "reddit"))))
+    id_map = json.load(open("{0}/graphsage/{1}-id_map.json".format(folder, "reddit")))
     nx.write_edgelist(G, path=folder + "/edgelist/reddit.edgelist", delimiter=" ", data=['weight'])
+    reader = csv.reader(open(folder + "/edgelist/reddit.edgelist", "rt"), delimiter=' ')
+    writer = csv.writer(open(folder + "/edgelist/reddit-int.edgelist", "wt"), delimiter=' ')
+    for row in reader:
+        writer.writerow([id_map[row[0]], id_map[row[1]]])
+
     print(folder + "/edgelist/")
     return G
 

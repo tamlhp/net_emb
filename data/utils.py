@@ -1,5 +1,7 @@
 import networkx as nx
 import pdb
+import json
+import argparse
 
 # function to calculate the number of triangles in a simple
 # directed/undirected graph.
@@ -20,3 +22,35 @@ def countTriangle(G, isDirected):
     # else division by 6 is done
     return count_Triangle/3 if isDirected else count_Triangle/6
 
+def change_node_id(emb_file, id_file, out_file):
+    id_map = json.load(open(id_file))
+    inv_map = {id_map[k]: k for k, v in id_map}
+    writer = open(out_file, "wt")
+
+    count = 0
+    with open(emb_file) as f:
+        for line in f:
+            if count==0:
+                writer.write(line + "\n")
+            else:
+                data = line.split()
+                data[0] = inv_map[int(data[0])]
+                writer.write(" ".join(data))
+                writer.write("\n")
+            count += 1
+    return
+
+def main(args):
+    change_node_id(args.emb, args.id, args.out)
+
+def parse_args():
+    parser = argparse.ArgumentParser(description="Data Utils.")
+    parser.add_argument('--emb', help='Emb path')
+    parser.add_argument('--id', help="Id map file")
+    parser.add_argument('--out', help='Output file')
+    return parser.parse_args()
+
+
+if __name__ == '__main__':
+    args = parse_args()
+    main(args)

@@ -74,9 +74,11 @@ def read_graph():
 	Reads the input network in networkx.
 	'''
 	if args.weighted:
-		G = nx.read_edgelist(args.input, nodetype=int, data=(('weight',float),), create_using=nx.DiGraph())
+		# G = nx.read_edgelist(args.input, nodetype=int, data=(('weight',float),), create_using=nx.DiGraph())
+		G = nx.read_edgelist(args.input, data=(('weight',float),), create_using=nx.DiGraph())
 	else:
-		G = nx.read_edgelist(args.input, nodetype=int, create_using=nx.DiGraph())
+		# G = nx.read_edgelist(args.input, nodetype=int, create_using=nx.DiGraph())
+		G = nx.read_edgelist(args.input, create_using=nx.DiGraph())
 		for edge in G.edges():
 			G[edge[0]][edge[1]]['weight'] = 1
 
