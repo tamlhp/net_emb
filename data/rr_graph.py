@@ -22,7 +22,7 @@ def parse_args():
 def main(args):
     n = args.n
     writer = open(args.path + "/prefix.txt", "wt")
-    for d in [2,3,5,10]:
+    for d in [3,5,10]:
         prefix = "erdos,n={0},d={1}".format(n,d)
         writer.write(prefix + "\n")
 
