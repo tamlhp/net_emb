@@ -26,15 +26,12 @@ source activate tensorflow
 #     --embed_dir ${DATASPACE}/ppi/unsup-graphsage/gcn_big_0.000010 \
 #     --prefix ppi --setting test --label multi --classifier logistic
 
-python node_classification/node_classifier.py --dataset_dir ${DATASPACE}/ppi/graphsage/ \
-    --embed_dir feat --prefix ppi --setting test --label multi --classifier logistic
+# python node_classification/node_classifier.py --dataset_dir ${DATASPACE}/ppi/graphsage/ \
+#     --embed_dir feat --prefix ppi --setting test --label multi --classifier logistic
 
-
-
-
-# python node_classification/node_classifier.py --algorithm graphsage --dataset_dir ${DATASPACE}/reddit/graphsage/ \
-#     --embed_dir ${DATASPACE}/reddit/unsup-graphsage/graphsage_mean_small_0.000010 \
-#     --prefix reddit --setting test
+python node_classification/node_classifier.py --algorithm graphsage --dataset_dir ${DATASPACE}/reddit/graphsage/ \
+    --embed_dir ${DATASPACE}/reddit/unsup-graphsage/graphsage_mean_small_0.000010 \
+    --prefix reddit --setting test
 
     
 source activate base
