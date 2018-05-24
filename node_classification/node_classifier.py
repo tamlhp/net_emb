@@ -125,7 +125,7 @@ def parse_args():
     parser.add_argument("--label", choices=['multi', 'single'], default="single", help="Either single-label or multi-label classification.")
     parser.add_argument("--loss", choices=['log', 'hinge'], default="log", help="Loss function")
     parser.add_argument("--classifier", choices=['sgd', 'logistic'], default="sgd", help="Base classifier")
-    parser.add_argument("--average", choices=['micro', 'macro', 'weighted', 'none'], default="micro", help="Average strategy for multi-class classification")
+    parser.add_argument("--average", choices=['micro', 'macro', 'weighted', 'samples', 'none'], default="micro", help="Average strategy for multi-class classification")
     return parser.parse_args()
 
 def main(args):
