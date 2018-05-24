@@ -16,4 +16,5 @@ source activate base
 
 # python data/erdos_graph.py --path ${DATASPACE}/erdos
 # python data/rr_graph.py --path ${DATASPACE}/rr_graph
-python data/watts_graph.py --path ${DATASPACE}/watts_graph
+# python data/watts_graph.py --path ${DATASPACE}/watts_graph
+python data/pa_graph.py --path ${DATASPACE}/pa_graph

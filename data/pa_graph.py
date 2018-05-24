@@ -12,11 +12,11 @@ seed = 123
 random.seed(seed)
 np.random.seed(seed)
 
-# https://www.mathworks.com/help/matlab/examples/build-watts-strogatz-small-world-graph-model.html
+# https://networkx.github.io/documentation/networkx-1.10/reference/generated/networkx.generators.random_graphs.barabasi_albert_graph.html
 
 def parse_args():
-    parser = argparse.ArgumentParser(description="Watts-Strogatz graph generator.")
-    parser.add_argument('--path', default="/Users/tnguyen/dataspace/graph/watts_graph/", help='Path to save dataset')
+    parser = argparse.ArgumentParser(description="Barabasi-Albert preferential attachment graph generator.")
+    parser.add_argument('--path', default="/Users/tnguyen/dataspace/graph/pa_graph/", help='Path to save dataset')
     parser.add_argument('-n', type=int, default=10000, help='Number of nodes')
     parser.add_argument('--stat', action='store_true', default=False, help='Some statistics')
     return parser.parse_args()
@@ -24,12 +24,11 @@ def parse_args():
 def main(args):
     n = args.n
     writer = open(args.path + "/prefix.txt", "wt")
-    k=25
-    for p in [0, 0.15, 0.5, 1]:
-        prefix = "watts,n={0},k={1},p={2}".format(n,k,p)
+    for m in [2, 3, 5, 10]:
+        prefix = "pa,n={0},m={1}".format(n,m)
         writer.write(prefix + "\n")
 
-        G = nx.watts_strogatz_graph(n,k,p,seed=seed)
+        G = nx.barabasi_albert_graph(n,m,seed=seed)
         print(nx.info(G))
         edgelist = "{0}/edgelist/{1}.edgelist".format(args.path, prefix)
         nx.write_edgelist(G, path=edgelist, delimiter=" ", data=False)
