@@ -15,8 +15,14 @@ DATASPACE=/mnt/storage01/duong/dataspace/graph
 # python data/export_tsv.py --algorithm node2vec --prefix ppi --emb ${DATASPACE}/ppi/emb/ --tsv ${DATASPACE}/ppi/tsv
 # python data/export_tsv.py --algorithm graphsage --prefix ppi --emb ${DATASPACE}/ppi/unsup-graphsage/gcn_big_0.000010/ --tsv ${DATASPACE}/ppi/tsv
 
-IFS=$'\r\n' GLOBIGNORE='*' command eval  'PREFIX=($(cat ${DATASPACE}/erdos/prefix.txt))'
+# IFS=$'\r\n' GLOBIGNORE='*' command eval  'PREFIX=($(cat ${DATASPACE}/erdos/prefix.txt))'
+# for i in "${PREFIX[@]}"
+# do
+#     python data/export_tsv.py --algorithm node2vec --prefix ${i} --emb ${DATASPACE}/erdos/emb/ --tsv ${DATASPACE}/erdos/tsv
+# done
+
+IFS=$'\r\n' GLOBIGNORE='*' command eval  'PREFIX=($(cat ${DATASPACE}/rr_graph/prefix.txt))'
 for i in "${PREFIX[@]}"
 do
-    python data/export_tsv.py --algorithm node2vec --prefix ${i} --emb ${DATASPACE}/erdos/emb/ --tsv ${DATASPACE}/erdos/tsv
+    python data/export_tsv.py --algorithm node2vec --prefix ${i} --emb ${DATASPACE}/rr_graph/emb/ --tsv ${DATASPACE}/rr_graph/tsv
 done
