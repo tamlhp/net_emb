@@ -17,10 +17,16 @@ source activate python2
 #     python ./node2vec/src/main.py --input ${DATASPACE}/erdos/edgelist/${i}.edgelist --output ${DATASPACE}/erdos/emb/${i}.emb
 # done
 
-IFS=$'\r\n' GLOBIGNORE='*' command eval  'PREFIX=($(cat ${DATASPACE}/rr_graph/prefix.txt))'
+# IFS=$'\r\n' GLOBIGNORE='*' command eval  'PREFIX=($(cat ${DATASPACE}/rr_graph/prefix.txt))'
+# for i in "${PREFIX[@]}"
+# do
+#     python ./node2vec/src/main.py --input ${DATASPACE}/rr_graph/edgelist/${i}.edgelist --output ${DATASPACE}/rr_graph/emb/${i}.emb
+# done
+
+IFS=$'\r\n' GLOBIGNORE='*' command eval  'PREFIX=($(cat ${DATASPACE}/watts_graph/prefix.txt))'
 for i in "${PREFIX[@]}"
 do
-    python ./node2vec/src/main.py --input ${DATASPACE}/rr_graph/edgelist/${i}.edgelist --output ${DATASPACE}/rr_graph/emb/${i}.emb
+    python ./node2vec/src/main.py --input ${DATASPACE}/watts_graph/edgelist/${i}.edgelist --output ${DATASPACE}/watts_graph/emb/${i}.emb
 done
 
 # python ./node2vec/src/main.py --input ${DATASPACE}/karate/edgelist/karate.edgelist --output ${DATASPACE}/karate/emb/karate.emb
