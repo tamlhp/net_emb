@@ -29,7 +29,9 @@ cd graphsage/
 #      --identity_dim 128 --base_log_dir ${DATASPACE}/ppi/
 
 # python -m graphsage.utils ${DATASPACE}/reddit/graphsage/reddit-G.json ${DATASPACE}/reddit/graphsage/reddit-walks.txt
-# python -m graphsage.unsupervised_train --train_prefix ${DATASPACE}/reddit/graphsage/reddit --model graphsage_mean --model_size small \
+python -m graphsage.unsupervised_train --train_prefix ${DATASPACE}/reddit/graphsage/reddit --model graphsage_mean --max_total_steps 1000 --validate_iter 10 \
+     --identity_dim 128 --base_log_dir ${DATASPACE}/reddit/
+# python -m graphsage.unsupervised_train --train_prefix ${DATASPACE}/reddit/graphsage/reddit --model gcn --model_size big \
 #     --epochs 10 --dropout 0.01 --weight_decay 0.01 --max_total_steps 100000 --validate_iter 1000 \
 #      --identity_dim 128 --base_log_dir ${DATASPACE}/reddit/
 
@@ -68,19 +70,19 @@ cd graphsage/
 #         --identity_dim 128 --base_log_dir ${DATASPACE}/rr_graph/emb-graphsage/${i}
 # done
 
-IFS=$'\r\n' GLOBIGNORE='*' command eval  'PREFIX=($(cat ${DATASPACE}/watts_graph/prefix.txt))'
-for i in "${PREFIX[@]}"
-do
-    python -m graphsage.utils ${DATASPACE}/watts_graph/graphsage/${i}-G.json ${DATASPACE}/watts_graph/graphsage/${i}-walks.txt
-    if [ ! -d "${DATASPACE}/watts_graph/emb-graphsage/${i}" ]; then
-        mkdir ${DATASPACE}/watts_graph/emb-graphsage/${i}
-    fi
-    # python -m graphsage.unsupervised_train --train_prefix ${DATASPACE}/watts_graph/graphsage/${i} --model graphsage_mean --max_total_steps 1000 --validate_iter 10 \
-    #     --identity_dim 128 --base_log_dir ${DATASPACE}/watts_graph/emb-graphsage/${i}
-    python -m graphsage.unsupervised_train --train_prefix ${DATASPACE}/watts_graph/graphsage/${i} --model gcn --model_size big \
-        --epochs 10 --dropout 0.01 --weight_decay 0.01 --max_total_steps 100000 --validate_iter 1000 \
-        --identity_dim 128 --base_log_dir ${DATASPACE}/watts_graph/emb-graphsage/${i}
-done
+# IFS=$'\r\n' GLOBIGNORE='*' command eval  'PREFIX=($(cat ${DATASPACE}/watts_graph/prefix.txt))'
+# for i in "${PREFIX[@]}"
+# do
+#     python -m graphsage.utils ${DATASPACE}/watts_graph/graphsage/${i}-G.json ${DATASPACE}/watts_graph/graphsage/${i}-walks.txt
+#     if [ ! -d "${DATASPACE}/watts_graph/emb-graphsage/${i}" ]; then
+#         mkdir ${DATASPACE}/watts_graph/emb-graphsage/${i}
+#     fi
+#     # python -m graphsage.unsupervised_train --train_prefix ${DATASPACE}/watts_graph/graphsage/${i} --model graphsage_mean --max_total_steps 1000 --validate_iter 10 \
+#     #     --identity_dim 128 --base_log_dir ${DATASPACE}/watts_graph/emb-graphsage/${i}
+#     python -m graphsage.unsupervised_train --train_prefix ${DATASPACE}/watts_graph/graphsage/${i} --model gcn --model_size big \
+#         --epochs 10 --dropout 0.01 --weight_decay 0.01 --max_total_steps 100000 --validate_iter 1000 \
+#         --identity_dim 128 --base_log_dir ${DATASPACE}/watts_graph/emb-graphsage/${i}
+# done
 
 cd ../
 source activate base
