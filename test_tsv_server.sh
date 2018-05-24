@@ -21,8 +21,14 @@ DATASPACE=/mnt/storage01/duong/dataspace/graph
 #     python data/export_tsv.py --algorithm node2vec --prefix ${i} --emb ${DATASPACE}/erdos/emb/ --tsv ${DATASPACE}/erdos/tsv
 # done
 
-IFS=$'\r\n' GLOBIGNORE='*' command eval  'PREFIX=($(cat ${DATASPACE}/rr_graph/prefix.txt))'
+# IFS=$'\r\n' GLOBIGNORE='*' command eval  'PREFIX=($(cat ${DATASPACE}/rr_graph/prefix.txt))'
+# for i in "${PREFIX[@]}"
+# do
+#     python data/export_tsv.py --algorithm node2vec --prefix ${i} --emb ${DATASPACE}/rr_graph/emb/ --tsv ${DATASPACE}/rr_graph/tsv
+# done
+
+IFS=$'\r\n' GLOBIGNORE='*' command eval  'PREFIX=($(cat ${DATASPACE}/watts_graph/prefix.txt))'
 for i in "${PREFIX[@]}"
 do
-    python data/export_tsv.py --algorithm node2vec --prefix ${i} --emb ${DATASPACE}/rr_graph/emb/ --tsv ${DATASPACE}/rr_graph/tsv
+    python data/export_tsv.py --algorithm node2vec --prefix ${i} --emb ${DATASPACE}/watts_graph/emb/ --tsv ${DATASPACE}/watts_graph/tsv
 done
