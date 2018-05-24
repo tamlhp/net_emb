@@ -11,10 +11,16 @@ source activate python2
 # python ./node2vec/src/main.py --input ${DATASPACE}/reddit/edgelist/reddit-int.edgelist --output ${DATASPACE}/reddit/emb/reddit-int.emb
 # python ./data/utils.py --emb ${DATASPACE}/reddit/emb/reddit-int.emb --id ${DATASPACE}/reddit/graphsage/reddit-id_map.json --out ${DATASPACE}/reddit/emb/reddit.emb
 
-IFS=$'\r\n' GLOBIGNORE='*' command eval  'PREFIX=($(cat ${DATASPACE}/erdos/prefix.txt))'
+# IFS=$'\r\n' GLOBIGNORE='*' command eval  'PREFIX=($(cat ${DATASPACE}/erdos/prefix.txt))'
+# for i in "${PREFIX[@]}"
+# do
+#     python ./node2vec/src/main.py --input ${DATASPACE}/erdos/edgelist/${i}.edgelist --output ${DATASPACE}/erdos/emb/${i}.emb
+# done
+
+IFS=$'\r\n' GLOBIGNORE='*' command eval  'PREFIX=($(cat ${DATASPACE}/rr_graph/prefix.txt))'
 for i in "${PREFIX[@]}"
 do
-    python ./node2vec/src/main.py --input ${DATASPACE}/erdos/edgelist/${i}.edgelist --output ${DATASPACE}/erdos/emb/${i}.emb
+    python ./node2vec/src/main.py --input ${DATASPACE}/rr_graph/edgelist/${i}.edgelist --output ${DATASPACE}/rr_graph/emb/${i}.emb
 done
 
 # python ./node2vec/src/main.py --input ${DATASPACE}/karate/edgelist/karate.edgelist --output ${DATASPACE}/karate/emb/karate.emb
