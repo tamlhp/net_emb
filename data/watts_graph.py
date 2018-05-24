@@ -13,8 +13,8 @@ random.seed(seed)
 np.random.seed(seed)
 
 def parse_args():
-    parser = argparse.ArgumentParser(description="Random regular graph generator.")
-    parser.add_argument('--path', default="/Users/tnguyen/dataspace/graph/rr_graph/", help='Path to save dataset')
+    parser = argparse.ArgumentParser(description="Watts-Strogatz graph generator.")
+    parser.add_argument('--path', default="/Users/tnguyen/dataspace/graph/watts_graph/", help='Path to save dataset')
     parser.add_argument('-n', type=int, default=10000, help='Number of nodes')
     parser.add_argument('--stat', action='store_true', default=False, help='Some statistics')
     return parser.parse_args()
@@ -22,11 +22,12 @@ def parse_args():
 def main(args):
     n = args.n
     writer = open(args.path + "/prefix.txt", "wt")
-    for d in [3,5,10]:
-        prefix = "rrgraph,n={0},d={1}".format(n,d)
+    k=25
+    for p in [0, 0.15, 0.5, 1]:
+        prefix = "watts,n={0},k={1},p={2}".format(n,k,p)
         writer.write(prefix + "\n")
 
-        G = nx.generators.random_graphs.random_regular_graph(d, n, seed=seed)
+        G = nx.watts_strogatz_graph(n,k,p,seed=seed)
         print(nx.info(G))
         edgelist = "{0}/edgelist/{1}.edgelist".format(args.path, prefix)
         nx.write_edgelist(G, path=edgelist, delimiter=" ", data=False)
