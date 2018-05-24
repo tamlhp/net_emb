@@ -31,6 +31,7 @@ def main(args):
         assert False
 
     writer.close()
+    print("{0}/{1}-{2}.tsv".format(args.tsv, args.prefix, args.algorithm))
     return
 
 
