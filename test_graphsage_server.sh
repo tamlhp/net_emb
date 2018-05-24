@@ -54,7 +54,7 @@ cd graphsage/
 #         --identity_dim 128 --base_log_dir ${DATASPACE}/erdos/emb-graphsage/${i}
 # done
 
-IFS=$'\r\n' GLOBIGNORE='*' command eval  'PREFIX=($(cat ${DATASPACE}/erdos/prefix.txt))'
+IFS=$'\r\n' GLOBIGNORE='*' command eval  'PREFIX=($(cat ${DATASPACE}/rr_graph/prefix.txt))'
 for i in "${PREFIX[@]}"
 do
     python -m graphsage.utils ${DATASPACE}/rr_graph/graphsage/${i}-G.json ${DATASPACE}/rr_graph/graphsage/${i}-walks.txt
