@@ -3,7 +3,10 @@ import argparse
 import networkx as nx
 
 def main(args):
-    G = nx.read_edgelist(args.edgelist)
+    if args.weighted:
+        G = nx.read_edgelist(args.edgelist, data=(('weight',float),))
+    else:
+        G = nx.read_edgelist(args.edgelist)
     nx.write_gexf(G, args.gexf)
 
     print(nx.info(G))
@@ -17,6 +20,7 @@ def parse_args():
     parser = argparse.ArgumentParser(description="Convert graph data to gexf format.")
     parser.add_argument('--edgelist', nargs='?', default='', help='Input data path')
     parser.add_argument('--gexf', nargs='?', default='', help='Output data path')
+    parser.add_argument('--weighted', action='store_true', default=False, help='Weighted or not')
     parser.add_argument('--stat', action='store_true', default=False, help='Some statistics')
     return parser.parse_args()
 
