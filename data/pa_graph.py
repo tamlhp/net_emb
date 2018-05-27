@@ -24,7 +24,7 @@ def parse_args():
 def main(args):
     n = args.n
     writer = open(args.path + "/prefix.txt", "wt")
-    for m in [2, 3, 5, 10]:
+    for m in [1, 2, 3, 5, 10]:
         prefix = "pa,n={0},m={1}".format(n,m)
         writer.write(prefix + "\n")
 

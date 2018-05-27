@@ -8,6 +8,7 @@ def main(args):
     else:
         G = nx.read_edgelist(args.edgelist)
     nx.write_gexf(G, args.gexf)
+    print(args.gexf)
 
     print(nx.info(G))
     if args.stat:
